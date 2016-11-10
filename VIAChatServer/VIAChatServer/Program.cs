@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace VIAChatServer
@@ -33,6 +34,18 @@ namespace VIAChatServer
         public void start()
         {
             listener.Start();
+
+            while (true) //Infinite loop because it's the only job of the server
+            {
+                TcpClient client = listener.AcceptTcpClient(); //Wait for an incoming connection
+                new Thread(() => SocketThread(client.GetStream())).Start(); //Creates anonymous thread and pass stream parameter to the method being threaded
+            }
         }
+
+        private void SocketThread(NetworkStream stream) //method being threaded, handles the socket communication
+        {
+
+        }
+
     }
 }
