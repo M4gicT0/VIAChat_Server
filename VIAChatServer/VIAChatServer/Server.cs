@@ -79,6 +79,8 @@ namespace VIAChatServer
              *      stream.Write(message.GetBody(), 0, message.length);
             */
 
+            SendMessageHistory(stream);
+
             String userName = "theo_morales";
             User user = FindUser(userName);
             monitor.AddUser(user);
@@ -90,8 +92,6 @@ namespace VIAChatServer
                 /*
                  * TO DO:
                  * Read message (XML formatted)
-                 * Save the message in the messages history
-                 * once we receive a carriage return
                 */
 
                 int recv;
@@ -111,6 +111,11 @@ namespace VIAChatServer
                 Message msg = new Message();
                 msg.body = Encoding.ASCII.GetString(data, 0, recv);
                 msg.user_id = user.id;
+
+                /*
+                 * TO DO:
+                 * save message to database
+                */
                 
                 monitor.UserSays(user, msg);
             }
@@ -129,6 +134,16 @@ namespace VIAChatServer
                                select u;
 
                 return query.FirstOrDefault<User>();
+            }
+        }
+
+        private void SendMessageHistory(NetworkStream stream)
+        {
+            VIAChatEntities context = new VIAChatEntities();
+
+            foreach(Message message in context.Messages)
+            {
+                stream.Write(Encoding.ASCII.GetBytes(message.body), 0, message.body.Length); //Writes the message body in the stream
             }
         }
     }

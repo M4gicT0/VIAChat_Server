@@ -26,7 +26,6 @@ namespace VIAChatServer
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             base.OnFormClosing(e);
-            Console.WriteLine("Killing app !");
             //Stop the connections thread before closing the application
             server.Stop();
         }
