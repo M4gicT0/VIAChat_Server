@@ -17,7 +17,7 @@ namespace VIAChatServer
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new Monitor());
         }
     }
 
@@ -55,17 +55,21 @@ namespace VIAChatServer
              * 
              * foreach (messages as message)
              *      stream.Write(message.GetBody(), 0, message.length);
-             * 
             */
+            String userName = "";
+
+
+
+            User user = new User(userName);
+            Message message = new Message(user);
 
             while (true) //The communication is up until the client disconnects
             {
                 byte byteRead = (byte)stream.ReadByte();
                 /*
-                 * TO D:
-                 * Save the byte in the messages history
-                 * 
-                 * 
+                 * TO DO:
+                 * Save the message in the messages history
+                 * once we receive a carriage return
                 */
             }
 
@@ -77,8 +81,6 @@ namespace VIAChatServer
     {
         private String body { get; set; }
         private User author { get; set; }
-
-
 
         public Message(String body, User author)
         {
@@ -92,7 +94,7 @@ namespace VIAChatServer
             this.author = author;
         }
 
-        public void Append(Char character)
+        public void Append(Char character) //Append a character to the message's body
         {
             body += character;
         }
