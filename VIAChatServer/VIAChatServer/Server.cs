@@ -12,12 +12,14 @@ namespace VIAChatServer
         private ArrayList clients;
         private bool isRunning;
         private Thread connectionsService;
+        public int Port { get; private set; }
 
-        public Server()
+        public Server(int port)
         {
+            this.Port = port;
             byte[] adr = { 127, 0, 0, 1 };
             IPAddress ipAdr = new IPAddress(adr);
-            listener = new TcpListener(ipAdr, 5549);
+            listener = new TcpListener(ipAdr, port);
             clients = new ArrayList();
             isRunning = false;
             connectionsService = new Thread(new ThreadStart(waitForConnections));

@@ -8,11 +8,11 @@ namespace VIAChatServer
 {
     public class User
     {
-        private String name { get; }
+        public String Name { get; private set; }
 
         public User(String userName)
         {
-            name = userName;
+            Name = userName;
         }
     }
 }

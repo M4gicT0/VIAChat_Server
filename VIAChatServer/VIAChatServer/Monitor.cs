@@ -11,7 +11,7 @@ namespace VIAChatServer
         {
             InitializeComponent();
 
-            server = new Server();
+            server = new Server(5577);
         }
 
         private void Monitor_Load(object sender, EventArgs e)
@@ -29,9 +29,11 @@ namespace VIAChatServer
             if (!server.IsRunning())
             {
                 server.Start();
+                messagesBox.AppendText("Server is running on port " + server.Port + ".");
                 buttonToggle.Text = "Stop";
             } else {
                 server.Stop();
+                messagesBox.AppendText("Server stopped.");
                 buttonToggle.Text = "Start";
             }
         }

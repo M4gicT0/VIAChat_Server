@@ -8,24 +8,24 @@ namespace VIAChatServer
 {
     class Message
     {
-        private String body { get; set; }
-        private User author { get; set; }
+        public String Body { get; private set; }
+        public User Author { get; private set; }
 
         public Message(String body, User author)
         {
-            this.body = body;
-            this.author = author;
+            Body = body;
+            Author = author;
         }
 
         public Message(User author)
         {
-            body = "";
-            this.author = author;
+            Body = "";
+            Author = author;
         }
 
         public void Append(Char character) //Append a character to the message's body
         {
-            body += character;
+            Body += character;
         }
     }
 }
