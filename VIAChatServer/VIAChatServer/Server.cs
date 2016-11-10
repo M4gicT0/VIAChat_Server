@@ -22,13 +22,13 @@ namespace VIAChatServer
             listener = new TcpListener(ipAdr, port);
             clients = new ArrayList();
             isRunning = false;
-            connectionsService = new Thread(new ThreadStart(waitForConnections));
         }
 
         public void Start()
         {
             listener.Start();
             isRunning = true;
+            connectionsService = new Thread(new ThreadStart(waitForConnections));
             connectionsService.Start();
         }
 
@@ -45,11 +45,18 @@ namespace VIAChatServer
 
         private void waitForConnections()
         {
-            while (isRunning) //Infinite loop because it's the only job of the server
+            try
             {
-                TcpClient client = listener.AcceptTcpClient(); //Wait for an incoming connection
-                clients.Add(client);
-                new Thread(() => SocketThread(client.GetStream())).Start(); //Creates anonymous thread and pass stream parameter to the method being threaded
+                while (isRunning) //Infinite loop because it's the only job of the server
+                {
+                    TcpClient client = listener.AcceptTcpClient(); //Wait for an incoming connection
+                    clients.Add(client);
+                    new Thread(() => SocketThread(client.GetStream())).Start(); //Creates anonymous thread and pass stream parameter to the method being threaded
+                }
+            }
+            catch(SocketException e)
+            {
+                Console.WriteLine(e);
             }
         }
 
@@ -64,7 +71,6 @@ namespace VIAChatServer
              *      stream.Write(message.GetBody(), 0, message.length);
             */
             String userName = "";
-
 
 
             User user = new User(userName);

@@ -29,11 +29,11 @@ namespace VIAChatServer
             if (!server.IsRunning())
             {
                 server.Start();
-                messagesBox.AppendText("Server is running on port " + server.Port + ".");
+                messagesBox.AppendText("Server is running on port " + server.Port + ".\n");
                 buttonToggle.Text = "Stop";
             } else {
                 server.Stop();
-                messagesBox.AppendText("Server stopped.");
+                messagesBox.AppendText("Server stopped.\n");
                 buttonToggle.Text = "Start";
             }
         }
