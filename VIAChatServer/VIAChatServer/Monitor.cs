@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data.Entity;
 using System.Windows.Forms;
 
@@ -22,6 +23,14 @@ namespace VIAChatServer
 
         }
 
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            base.OnFormClosing(e);
+            Console.WriteLine("Killing app !");
+            //Stop the connections thread before closing the application
+            server.Stop();
+        }
+
         private void adminInput_TextChanged(object sender, EventArgs e)
         {
             /*
@@ -38,7 +47,7 @@ namespace VIAChatServer
             {
                 if (portInput.Text == "")
                 {
-                    System.Windows.Forms.MessageBox.Show("You need to enter a port number !");
+                    System.Windows.Forms.MessageBox.Show("You need to enter a port number !", "Port missing !");
 
                     return;
                 }
@@ -59,14 +68,18 @@ namespace VIAChatServer
         */
         public void Notify(String message)
         {
-            messagesBox.AppendText(message + "\n");
+            this.Invoke((MethodInvoker)delegate {
+                messagesBox.AppendText(message + "\n");
+            });
         }
 
         private void refreshConnectedUsersList()
         {
             foreach (User user in connectedUsers)
             {
-                usersList.AppendText(user.username + "\n");
+                this.Invoke((MethodInvoker)delegate {
+                    usersList.AppendText(user.username + "\n");
+                });
             }
         }
 
@@ -77,6 +90,13 @@ namespace VIAChatServer
         {
             connectedUsers.Add(user);
             refreshConnectedUsersList();
+        }
+
+        public void UserSays(User user, Message message)
+        {
+            this.Invoke((MethodInvoker)delegate {
+                messagesBox.AppendText(user.username + ": " + message.body + "\n");
+            });
         }
     }
 }

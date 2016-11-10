@@ -4,6 +4,8 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Linq;
+using System.IO;
+using System.Text;
 
 namespace VIAChatServer
 {
@@ -31,13 +33,14 @@ namespace VIAChatServer
             listener.Start();
             isRunning = true;
             connectionsService = new Thread(new ThreadStart(waitForConnections));
+            connectionsService.IsBackground = true;
             connectionsService.Start();
         }
 
         public void Stop()
         {
-            listener.Stop();
             isRunning = false;
+            listener.Stop();
         }
 
         public bool IsRunning()
@@ -53,7 +56,9 @@ namespace VIAChatServer
                 {
                     TcpClient client = listener.AcceptTcpClient(); //Wait for an incoming connection
                     clients.Add(client);
-                    new Thread(() => SocketThread(client.GetStream())).Start(); //Creates anonymous thread and pass stream parameter to the method being threaded
+                    Thread socket = new Thread(() => SocketThread(client.GetStream())); //Creates thread and pass stream parameter to the method being threaded
+                    socket.IsBackground = true;
+                    socket.Start();
                 }
             }
             catch(SocketException e)
@@ -74,21 +79,40 @@ namespace VIAChatServer
              *      stream.Write(message.GetBody(), 0, message.length);
             */
 
-            String userName = "John Doe";
+            String userName = "theo_morales";
             User user = FindUser(userName);
             monitor.AddUser(user);
 
             monitor.Notify(userName + " is connected.");
 
-            while (true) //The communication is up until the client disconnects
+            while (isRunning) //The communication is up until the client disconnects
             {
-                byte byteRead = (byte)stream.ReadByte();
                 /*
                  * TO DO:
                  * Read message (XML formatted)
                  * Save the message in the messages history
                  * once we receive a carriage return
                 */
+
+                int recv;
+                byte[] data = new byte[1024];
+                try
+                {
+                    recv = stream.Read(data, 0, data.Length);
+                }
+                catch (IOException)
+                {
+                    break;
+                }
+
+                if (recv == 0)
+                    break;
+
+                Message msg = new Message();
+                msg.body = Encoding.ASCII.GetString(data, 0, recv);
+                msg.user_id = user.id;
+                
+                monitor.UserSays(user, msg);
             }
 
         }
