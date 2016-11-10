@@ -61,6 +61,7 @@
             this.adminInput.Size = new System.Drawing.Size(866, 20);
             this.adminInput.TabIndex = 2;
             this.adminInput.Text = "Send to all";
+            this.adminInput.TextChanged += new System.EventHandler(this.adminInput_TextChanged);
             // 
             // Monitor
             // 
