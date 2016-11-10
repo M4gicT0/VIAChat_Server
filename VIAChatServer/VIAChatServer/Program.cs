@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
@@ -23,29 +24,87 @@ namespace VIAChatServer
     public class Server
     {
         private TcpListener listener;
+        private ArrayList clients;
 
         public Server()
         {
             byte[] adr = { 127, 0, 0, 1 };
             IPAddress ipAdr = new IPAddress(adr);
             listener = new TcpListener(ipAdr, 5549);
+            clients = new ArrayList();
         }
 
-        public void start()
+        public void Start()
         {
             listener.Start();
 
             while (true) //Infinite loop because it's the only job of the server
             {
                 TcpClient client = listener.AcceptTcpClient(); //Wait for an incoming connection
+                clients.Add(client);
                 new Thread(() => SocketThread(client.GetStream())).Start(); //Creates anonymous thread and pass stream parameter to the method being threaded
             }
         }
 
         private void SocketThread(NetworkStream stream) //method being threaded, handles the socket communication
         {
+            /*
+             * TO DO (once):
+             * Send the previous messages (from the database, XML or whatever)
+             * to the client.
+             * 
+             * foreach (messages as message)
+             *      stream.Write(message.GetBody(), 0, message.length);
+             * 
+            */
+
+            while (true) //The communication is up until the client disconnects
+            {
+                byte byteRead = (byte)stream.ReadByte();
+                /*
+                 * TO D:
+                 * Save the byte in the messages history
+                 * 
+                 * 
+                */
+            }
 
         }
 
+    }
+
+    public class Message
+    {
+        private String body { get; set; }
+        private User author { get; set; }
+
+
+
+        public Message(String body, User author)
+        {
+            this.body = body;
+            this.author = author;
+        }
+
+        public Message(User author)
+        {
+            body = "";
+            this.author = author;
+        }
+
+        public void Append(Char character)
+        {
+            body += character;
+        }
+    }
+
+    public class User
+    {
+        private String name { get; }
+
+        public User(String userName)
+        {
+            name = userName;
+        }
     }
 }
