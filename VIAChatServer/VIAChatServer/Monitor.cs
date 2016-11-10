@@ -14,7 +14,7 @@ namespace VIAChatServer
         {
             InitializeComponent();
             connectedUsers = new List<User>();
-            server = new Server(5577, this);
+            server = new Server(this);
         }
 
         private void Monitor_Load(object sender, EventArgs e)
@@ -24,13 +24,26 @@ namespace VIAChatServer
 
         private void adminInput_TextChanged(object sender, EventArgs e)
         {
-
+            /*
+             * TO DO:
+             * When the character is the carriage return,
+             * flush the input and send the collected message
+             * to every connected user, plus save it in the DB
+            */
         }
 
         private void buttonToggle_Click(object sender, EventArgs e)
         {
             if (!server.IsRunning())
             {
+                if (portInput.Text == "")
+                {
+                    System.Windows.Forms.MessageBox.Show("You need to enter a port number !");
+
+                    return;
+                }
+
+                server.Port = int.Parse(portInput.Text);
                 server.Start();
                 messagesBox.AppendText("Server is running on port " + server.Port + ".\n");
                 buttonToggle.Text = "Stop";
@@ -41,6 +54,9 @@ namespace VIAChatServer
             }
         }
 
+        /*
+         * Gets called by the server instance
+        */
         public void Notify(String message)
         {
             messagesBox.AppendText(message + "\n");
@@ -54,6 +70,9 @@ namespace VIAChatServer
             }
         }
 
+        /*
+         * Gets called by the server instance
+        */
         public void AddUser(User user)
         {
             connectedUsers.Add(user);

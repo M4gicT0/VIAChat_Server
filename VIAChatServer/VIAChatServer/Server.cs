@@ -14,21 +14,20 @@ namespace VIAChatServer
         private ArrayList clients;
         private bool isRunning;
         private Thread connectionsService;
-        public int Port { get; private set; }
+        public int Port { get; set; }
 
-        public Server(int port, Monitor monitor)
+        public Server(Monitor monitor)
         {
             this.monitor = monitor;
-            Port = port;
-            byte[] adr = { 127, 0, 0, 1 };
-            IPAddress ipAdr = new IPAddress(adr);
-            listener = new TcpListener(ipAdr, port);
             clients = new ArrayList();
             isRunning = false;
         }
 
         public void Start()
         {
+            byte[] adr = { 127, 0, 0, 1 };
+            IPAddress ipAdr = new IPAddress(adr);
+            listener = new TcpListener(ipAdr, Port);
             listener.Start();
             isRunning = true;
             connectionsService = new Thread(new ThreadStart(waitForConnections));
@@ -96,6 +95,9 @@ namespace VIAChatServer
 
         private User FindUser(string username)
         {
+            /*
+             * Returns the user having the corresponding username
+            */
             using (VIAChatEntities context = new VIAChatEntities())
             {
                 var query =  from u in context.Users

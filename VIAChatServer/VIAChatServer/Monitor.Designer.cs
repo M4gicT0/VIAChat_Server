@@ -32,6 +32,8 @@
             this.messagesBox = new System.Windows.Forms.TextBox();
             this.adminInput = new System.Windows.Forms.TextBox();
             this.usersList = new System.Windows.Forms.RichTextBox();
+            this.portInput = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // buttonToggle
@@ -76,11 +78,32 @@
             this.usersList.TabIndex = 3;
             this.usersList.Text = "";
             // 
+            // portInput
+            // 
+            this.portInput.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.portInput.Location = new System.Drawing.Point(170, 441);
+            this.portInput.MaxLength = 5;
+            this.portInput.Name = "portInput";
+            this.portInput.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.portInput.Size = new System.Drawing.Size(65, 23);
+            this.portInput.TabIndex = 4;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(132, 444);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(32, 13);
+            this.label1.TabIndex = 5;
+            this.label1.Text = "Port :";
+            // 
             // Monitor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(891, 478);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.portInput);
             this.Controls.Add(this.usersList);
             this.Controls.Add(this.adminInput);
             this.Controls.Add(this.messagesBox);
@@ -99,6 +122,8 @@
         private System.Windows.Forms.TextBox messagesBox;
         private System.Windows.Forms.TextBox adminInput;
         private System.Windows.Forms.RichTextBox usersList;
+        private System.Windows.Forms.TextBox portInput;
+        private System.Windows.Forms.Label label1;
     }
 }
 
