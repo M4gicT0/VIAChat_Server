@@ -46,6 +46,7 @@
             // 
             // messagesBox
             // 
+            this.messagesBox.ForeColor = System.Drawing.SystemColors.WindowText;
             this.messagesBox.Location = new System.Drawing.Point(13, 13);
             this.messagesBox.Multiline = true;
             this.messagesBox.Name = "messagesBox";
@@ -66,9 +67,11 @@
             // 
             // usersList
             // 
+            this.usersList.ForeColor = System.Drawing.SystemColors.WindowText;
             this.usersList.Location = new System.Drawing.Point(641, 13);
             this.usersList.Name = "usersList";
             this.usersList.ReadOnly = true;
+            this.usersList.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
             this.usersList.Size = new System.Drawing.Size(238, 390);
             this.usersList.TabIndex = 3;
             this.usersList.Text = "";

@@ -3,20 +3,23 @@ using System.Collections;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using System.Linq;
 
 namespace VIAChatServer
 {
     class Server
     {
+        private Monitor monitor;
         private TcpListener listener;
         private ArrayList clients;
         private bool isRunning;
         private Thread connectionsService;
         public int Port { get; private set; }
 
-        public Server(int port)
+        public Server(int port, Monitor monitor)
         {
-            this.Port = port;
+            this.monitor = monitor;
+            Port = port;
             byte[] adr = { 127, 0, 0, 1 };
             IPAddress ipAdr = new IPAddress(adr);
             listener = new TcpListener(ipAdr, port);
@@ -47,7 +50,7 @@ namespace VIAChatServer
         {
             try
             {
-                while (isRunning) //Infinite loop because it's the only job of the server
+                while (isRunning) //The thread has to be stopped from the inside, to prevent deadlocks
                 {
                     TcpClient client = listener.AcceptTcpClient(); //Wait for an incoming connection
                     clients.Add(client);
@@ -64,28 +67,43 @@ namespace VIAChatServer
         {
             /*
              * TO DO (once):
-             * Send the previous messages (from the database, XML or whatever)
-             * to the client.
+             * Retrieve the client's userId from his username
+             * Send back his userid
+             * Send him the previous messages (from the database, XML or whatever)
              * 
              * foreach (messages as message)
              *      stream.Write(message.GetBody(), 0, message.length);
             */
-            String userName = "";
 
+            String userName = "John Doe";
+            User user = FindUser(userName);
+            monitor.AddUser(user);
 
-            User user = new User(userName);
-            Message message = new Message(user);
+            monitor.Notify(userName + " is connected.");
 
             while (true) //The communication is up until the client disconnects
             {
                 byte byteRead = (byte)stream.ReadByte();
                 /*
                  * TO DO:
+                 * Read message (XML formatted)
                  * Save the message in the messages history
                  * once we receive a carriage return
                 */
             }
 
+        }
+
+        private User FindUser(string username)
+        {
+            using (VIAChatEntities context = new VIAChatEntities())
+            {
+                var query =  from u in context.Users
+                               where u.username == username
+                               select u;
+
+                return query.FirstOrDefault<User>();
+            }
         }
     }
 }

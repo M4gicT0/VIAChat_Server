@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity;
 using System.Windows.Forms;
 
 namespace VIAChatServer
@@ -6,12 +8,13 @@ namespace VIAChatServer
     public partial class Monitor : Form
     {
         private Server server;
+        private List<User> connectedUsers;
 
         public Monitor()
         {
             InitializeComponent();
-
-            server = new Server(5577);
+            connectedUsers = new List<User>();
+            server = new Server(5577, this);
         }
 
         private void Monitor_Load(object sender, EventArgs e)
@@ -36,6 +39,25 @@ namespace VIAChatServer
                 messagesBox.AppendText("Server stopped.\n");
                 buttonToggle.Text = "Start";
             }
+        }
+
+        public void Notify(String message)
+        {
+            messagesBox.AppendText(message + "\n");
+        }
+
+        private void refreshConnectedUsersList()
+        {
+            foreach (User user in connectedUsers)
+            {
+                usersList.AppendText(user.username + "\n");
+            }
+        }
+
+        public void AddUser(User user)
+        {
+            connectedUsers.Add(user);
+            refreshConnectedUsersList();
         }
     }
 }
