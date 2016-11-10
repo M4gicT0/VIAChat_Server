@@ -10,6 +10,8 @@ namespace VIAChatServer
     {
         private TcpListener listener;
         private ArrayList clients;
+        private bool isRunning;
+        private Thread connectionsService;
 
         public Server()
         {
@@ -17,13 +19,31 @@ namespace VIAChatServer
             IPAddress ipAdr = new IPAddress(adr);
             listener = new TcpListener(ipAdr, 5549);
             clients = new ArrayList();
+            isRunning = false;
+            connectionsService = new Thread(new ThreadStart(waitForConnections));
         }
 
         public void Start()
         {
             listener.Start();
+            isRunning = true;
+            connectionsService.Start();
+        }
 
-            while (true) //Infinite loop because it's the only job of the server
+        public void Stop()
+        {
+            listener.Stop();
+            isRunning = false;
+        }
+
+        public bool IsRunning()
+        {
+            return isRunning;
+        }
+
+        private void waitForConnections()
+        {
+            while (isRunning) //Infinite loop because it's the only job of the server
             {
                 TcpClient client = listener.AcceptTcpClient(); //Wait for an incoming connection
                 clients.Add(client);

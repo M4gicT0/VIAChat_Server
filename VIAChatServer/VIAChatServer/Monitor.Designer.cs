@@ -28,31 +28,32 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.button1 = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.buttonToggle = new System.Windows.Forms.Button();
+            this.messagesBox = new System.Windows.Forms.TextBox();
             this.adminInput = new System.Windows.Forms.TextBox();
+            this.usersList = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
             // 
-            // button1
+            // buttonToggle
             // 
-            this.button1.Location = new System.Drawing.Point(12, 435);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(114, 31);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Start";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.buttonToggle.Location = new System.Drawing.Point(12, 435);
+            this.buttonToggle.Name = "buttonToggle";
+            this.buttonToggle.Size = new System.Drawing.Size(114, 31);
+            this.buttonToggle.TabIndex = 0;
+            this.buttonToggle.Text = "Start";
+            this.buttonToggle.UseVisualStyleBackColor = true;
+            this.buttonToggle.Click += new System.EventHandler(this.buttonToggle_Click);
             // 
-            // textBox1
+            // messagesBox
             // 
-            this.textBox1.Location = new System.Drawing.Point(13, 13);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox1.Size = new System.Drawing.Size(866, 390);
-            this.textBox1.TabIndex = 1;
-            this.textBox1.WordWrap = false;
+            this.messagesBox.Location = new System.Drawing.Point(13, 13);
+            this.messagesBox.Multiline = true;
+            this.messagesBox.Name = "messagesBox";
+            this.messagesBox.ReadOnly = true;
+            this.messagesBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.messagesBox.Size = new System.Drawing.Size(622, 390);
+            this.messagesBox.TabIndex = 1;
+            this.messagesBox.WordWrap = false;
             // 
             // adminInput
             // 
@@ -63,17 +64,27 @@
             this.adminInput.Text = "Send to all";
             this.adminInput.TextChanged += new System.EventHandler(this.adminInput_TextChanged);
             // 
+            // usersList
+            // 
+            this.usersList.Location = new System.Drawing.Point(641, 13);
+            this.usersList.Name = "usersList";
+            this.usersList.ReadOnly = true;
+            this.usersList.Size = new System.Drawing.Size(238, 390);
+            this.usersList.TabIndex = 3;
+            this.usersList.Text = "";
+            // 
             // Monitor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(891, 478);
+            this.Controls.Add(this.usersList);
             this.Controls.Add(this.adminInput);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.messagesBox);
+            this.Controls.Add(this.buttonToggle);
             this.Name = "Monitor";
             this.Text = "VIAChat Monitor";
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.Load += new System.EventHandler(this.Monitor_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -81,9 +92,10 @@
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Button buttonToggle;
+        private System.Windows.Forms.TextBox messagesBox;
         private System.Windows.Forms.TextBox adminInput;
+        private System.Windows.Forms.RichTextBox usersList;
     }
 }
 
