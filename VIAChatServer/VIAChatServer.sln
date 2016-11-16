@@ -5,6 +5,10 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VIAChatServer", "VIAChatServer\VIAChatServer.csproj", "{B083DF9B-222B-4ED6-A7F4-086BC64EB79B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{A419BD12-0340-4809-9CF5-6AB4DCB6AD03}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VIAChatClient.Views", "VIAChatClient.Views\VIAChatClient.Views.csproj", "{53D376E8-18E2-4FD9-809A-48AC6E4A4576}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,8 +19,15 @@ Global
 		{B083DF9B-222B-4ED6-A7F4-086BC64EB79B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B083DF9B-222B-4ED6-A7F4-086BC64EB79B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B083DF9B-222B-4ED6-A7F4-086BC64EB79B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53D376E8-18E2-4FD9-809A-48AC6E4A4576}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53D376E8-18E2-4FD9-809A-48AC6E4A4576}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53D376E8-18E2-4FD9-809A-48AC6E4A4576}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53D376E8-18E2-4FD9-809A-48AC6E4A4576}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{53D376E8-18E2-4FD9-809A-48AC6E4A4576} = {A419BD12-0340-4809-9CF5-6AB4DCB6AD03}
 	EndGlobalSection
 EndGlobal
