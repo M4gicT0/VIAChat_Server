@@ -4,10 +4,10 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="65de71dc6d50489b960bd699d91752c8" Name="Diagram1">
+      <Diagram DiagramId="b6ff60d01acd4575be0512d54df056cb" Name="Diagram1">
         <EntityTypeShape EntityType="viachatModel.Message" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="viachatModel.User" Width="1.5" PointX="0.75" PointY="0.875" IsExpanded="true" />
-        <AssociationConnector Association="viachatModel.FK__Message__user_id__2A4B4B5E" ManuallyRouted="false" />
+        <AssociationConnector Association="viachatModel.FK__Messages__user_i__5535A963" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

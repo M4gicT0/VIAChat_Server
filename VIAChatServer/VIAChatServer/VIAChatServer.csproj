@@ -66,7 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Message.cs">
-      <DependentUpon>VIAChatDBModel.tt</DependentUpon>
+      <DependentUpon>VIAChatDatabase.tt</DependentUpon>
     </Compile>
     <Compile Include="Monitor.cs">
       <SubType>Form</SubType>
@@ -78,22 +78,22 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="User.cs">
-      <DependentUpon>VIAChatDBModel.tt</DependentUpon>
+      <DependentUpon>VIAChatDatabase.tt</DependentUpon>
     </Compile>
-    <Compile Include="VIAChatDBModel.Context.cs">
+    <Compile Include="VIAChatDatabase.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>VIAChatDBModel.Context.tt</DependentUpon>
+      <DependentUpon>VIAChatDatabase.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="VIAChatDBModel.cs">
+    <Compile Include="VIAChatDatabase.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>VIAChatDBModel.tt</DependentUpon>
+      <DependentUpon>VIAChatDatabase.tt</DependentUpon>
     </Compile>
-    <Compile Include="VIAChatDBModel.Designer.cs">
+    <Compile Include="VIAChatDatabase.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>VIAChatDBModel.edmx</DependentUpon>
+      <DependentUpon>VIAChatDatabase.edmx</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Monitor.resx">
       <DependentUpon>Monitor.cs</DependentUpon>
@@ -117,12 +117,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EntityDeploy Include="VIAChatDBModel.edmx">
+    <EntityDeploy Include="VIAChatDatabase.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>VIAChatDBModel.Designer.cs</LastGenOutput>
+      <LastGenOutput>VIAChatDatabase.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="VIAChatDBModel.edmx.diagram">
-      <DependentUpon>VIAChatDBModel.edmx</DependentUpon>
+    <None Include="VIAChatDatabase.edmx.diagram">
+      <DependentUpon>VIAChatDatabase.edmx</DependentUpon>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -132,15 +132,15 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="VIAChatDBModel.Context.tt">
+    <Content Include="VIAChatDatabase.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>VIAChatDBModel.edmx</DependentUpon>
-      <LastGenOutput>VIAChatDBModel.Context.cs</LastGenOutput>
+      <DependentUpon>VIAChatDatabase.edmx</DependentUpon>
+      <LastGenOutput>VIAChatDatabase.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="VIAChatDBModel.tt">
+    <Content Include="VIAChatDatabase.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>VIAChatDBModel.edmx</DependentUpon>
-      <LastGenOutput>VIAChatDBModel.cs</LastGenOutput>
+      <DependentUpon>VIAChatDatabase.edmx</DependentUpon>
+      <LastGenOutput>VIAChatDatabase.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

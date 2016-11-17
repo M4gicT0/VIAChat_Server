@@ -5,41 +5,41 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
       <Schema Namespace="viachatModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="Message">
+        <EntityType Name="Messages">
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="body" Type="text" Nullable="false" />
-          <Property Name="user_id" Type="int" />
+          <Property Name="user_id" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="User">
+        <EntityType Name="Users">
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="username" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="email" Type="varchar" MaxLength="250" Nullable="false" />
           <Property Name="password" Type="varchar" MaxLength="20" Nullable="false" />
         </EntityType>
-        <Association Name="FK__Message__user_id__2A4B4B5E">
-          <End Role="User" Type="Self.User" Multiplicity="0..1" />
-          <End Role="Message" Type="Self.Message" Multiplicity="*" />
+        <Association Name="FK__Messages__user_i__5535A963">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Messages" Type="Self.Messages" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="User">
+            <Principal Role="Users">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="Message">
+            <Dependent Role="Messages">
               <PropertyRef Name="user_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="viachatModelStoreContainer">
-          <EntitySet Name="Message" EntityType="Self.Message" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__Message__user_id__2A4B4B5E" Association="Self.FK__Message__user_id__2A4B4B5E">
-            <End Role="User" EntitySet="User" />
-            <End Role="Message" EntitySet="Message" />
+          <EntitySet Name="Messages" EntityType="Self.Messages" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Messages__user_i__5535A963" Association="Self.FK__Messages__user_i__5535A963">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Messages" EntitySet="Messages" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -51,39 +51,39 @@
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="body" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="user_id" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="User" Relationship="Self.FK__Message__user_id__2A4B4B5E" FromRole="Message" ToRole="User" />
+          <NavigationProperty Name="User" Relationship="Self.FK__Messages__user_i__5535A963" FromRole="Messages" ToRole="Users" />
         </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="email" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="password" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Messages" Relationship="Self.FK__Message__user_id__2A4B4B5E" FromRole="User" ToRole="Message" />
+          <NavigationProperty Name="Messages" Relationship="Self.FK__Messages__user_i__5535A963" FromRole="Users" ToRole="Messages" />
         </EntityType>
-        <Association Name="FK__Message__user_id__2A4B4B5E">
-          <End Role="User" Type="Self.User" Multiplicity="1" />
-          <End Role="Message" Type="Self.Message" Multiplicity="*" />
+        <Association Name="FK__Messages__user_i__5535A963">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="Messages" Type="Self.Message" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="User">
+            <Principal Role="Users">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="Message">
+            <Dependent Role="Messages">
               <PropertyRef Name="user_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="viachatEntities1" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="ViaChatEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Messages" EntityType="Self.Message" />
           <EntitySet Name="Users" EntityType="Self.User" />
-          <AssociationSet Name="FK__Message__user_id__2A4B4B5E" Association="Self.FK__Message__user_id__2A4B4B5E">
-            <End Role="User" EntitySet="Users" />
-            <End Role="Message" EntitySet="Messages" />
+          <AssociationSet Name="FK__Messages__user_i__5535A963" Association="Self.FK__Messages__user_i__5535A963">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Messages" EntitySet="Messages" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -91,10 +91,10 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="viachatModelStoreContainer" CdmEntityContainer="viachatEntities1">
+        <EntityContainerMapping StorageEntityContainer="viachatModelStoreContainer" CdmEntityContainer="ViaChatEntities">
           <EntitySetMapping Name="Messages">
             <EntityTypeMapping TypeName="viachatModel.Message">
-              <MappingFragment StoreEntitySet="Message">
+              <MappingFragment StoreEntitySet="Messages">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="body" ColumnName="body" />
                 <ScalarProperty Name="user_id" ColumnName="user_id" />
@@ -103,7 +103,7 @@
           </EntitySetMapping>
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="viachatModel.User">
-              <MappingFragment StoreEntitySet="User">
+              <MappingFragment StoreEntitySet="Users">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="username" ColumnName="username" />
                 <ScalarProperty Name="email" ColumnName="email" />

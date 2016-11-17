@@ -42,7 +42,7 @@ namespace VIAChatServer
 
         private void buttonToggle_Click(object sender, EventArgs e)
         {
-            if (!server.IsRunning())
+            if (!server.IsRunning)
             {
                 if (portInput.Text == "")
                 {

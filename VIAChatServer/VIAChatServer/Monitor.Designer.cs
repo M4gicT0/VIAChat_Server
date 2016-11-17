@@ -87,6 +87,7 @@
             this.portInput.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.portInput.Size = new System.Drawing.Size(65, 23);
             this.portInput.TabIndex = 4;
+            this.portInput.Text = "1234";
             // 
             // label1
             // 

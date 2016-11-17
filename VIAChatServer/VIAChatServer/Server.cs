@@ -15,7 +15,7 @@ namespace VIAChatServer
         private Monitor monitor;
         private TcpListener listener;
         private ArrayList clients;
-        private bool isRunning;
+        public bool IsRunning { get; private set; }
         private Thread connectionsService;
         public int Port { get; set; }
 
@@ -23,7 +23,7 @@ namespace VIAChatServer
         {
             this.monitor = monitor;
             clients = new ArrayList();
-            isRunning = false;
+            IsRunning = false;
         }
 
         public void Start()
@@ -32,7 +32,7 @@ namespace VIAChatServer
             IPAddress ipAdr = new IPAddress(adr);
             listener = new TcpListener(ipAdr, Port);
             listener.Start();
-            isRunning = true;
+            IsRunning = true;
             connectionsService = new Thread(new ThreadStart(waitForConnections));
             connectionsService.IsBackground = true;
             connectionsService.Start();
@@ -40,20 +40,15 @@ namespace VIAChatServer
 
         public void Stop()
         {
-            isRunning = false;
+            IsRunning = false;
             listener.Stop();
-        }
-
-        public bool IsRunning()
-        {
-            return isRunning;
         }
 
         private void waitForConnections()
         {
             try
             {
-                while (isRunning) //The thread has to be stopped from the inside, to prevent deadlocks
+                while (IsRunning) //The thread has to be stopped from the inside, to prevent deadlocks
                 {
                     TcpClient client = listener.AcceptTcpClient(); //Wait for an incoming connection
                     clients.Add(client);
@@ -75,13 +70,23 @@ namespace VIAChatServer
 
             if (user == null)
                 return;
+            else if(user.toBeRegistered)
+            {
+                bool registered = RegisterUser(user);
+                if (!registered)
+                    return;
+                else
+                {
+                    monitor.Notify(user.username + " has registered.");
+                }
+            } else {
+                monitor.AddUser(user);
+                monitor.Notify(user.username + " is connected.");
+                //SendMessageHistory(stream);
+            }
 
-            //SendMessageHistory(stream);
 
-            monitor.AddUser(user);
-            monitor.Notify(user.username + " is connected.");
-
-            while (isRunning) //The communication is up until the client disconnects
+            while (IsRunning) //The communication is up until the client disconnects
             {
                 /*
                  * TO DO:
@@ -144,18 +149,36 @@ namespace VIAChatServer
 
             using (MemoryStream ms = new MemoryStream(data))
             {
-                user = (User)serializer.Deserialize(ms);
+                user = (User) serializer.Deserialize(ms);
             }
 
             return user;
         }
+
+
+        /*
+         * Registers a user in the database
+         * Returns true if success
+         */
+        private bool RegisterUser(User user)
+        {
+            bool success = true;
+            using (ViaChatEntities db = new ViaChatEntities())
+            {
+                db.Users.Add(user);
+                db.SaveChanges();
+            }
+
+            return success;
+        }
+
 
         private User FindUser(string username)
         {
             /*
              * Returns the user having the corresponding username
             */
-            using (VIAChatEntities context = new VIAChatEntities())
+            using (ViaChatEntities context = new ViaChatEntities())
             {
                 var query =  from u in context.Users
                                where u.username == username
@@ -167,7 +190,7 @@ namespace VIAChatServer
 
         private void SendMessageHistory(NetworkStream stream)
         {
-            VIAChatEntities context = new VIAChatEntities();
+            ViaChatEntities context = new ViaChatEntities();
 
             foreach(Message message in context.Messages)
             {
