@@ -40,8 +40,11 @@ namespace VIAChatServer
 
         public void Stop()
         {
-            IsRunning = false;
-            listener.Stop();
+            if (IsRunning)
+            {
+                IsRunning = false;
+                listener.Stop();
+            }
         }
 
         private void waitForConnections()
@@ -66,33 +69,33 @@ namespace VIAChatServer
         private void SocketThread(NetworkStream stream) //method being threaded, handles the socket communication
         {
 
-            User user = KnockKnock(stream);
+            User user = KnockKnock(stream); //Open the door ...
 
-            if (user == null)
+            if (user == null) //It was just wind :/
                 return;
-            else if(user.toBeRegistered)
+            else if(user.toBeRegistered) //Oh, a new face !
             {
                 bool registered = RegisterUser(user);
-                if (!registered)
+                if (!registered) //I don't like you
                     return;
                 else
                 {
-                    monitor.Notify(user.username + " has registered.");
+                    monitor.Notify(user.username + " has registered."); //Welcome to my house !
                 }
-            } else {
-                monitor.AddUser(user);
-                monitor.Notify(user.username + " is connected.");
-                //SendMessageHistory(stream);
+            } else { //Your face rings a bell ...
+                bool authenticated = AuthenticateUser(user); //Okay let me put on my glasses
+
+                if (authenticated) //Oh it's you ! It's been a while !
+                {
+                    monitor.AddUser(user);
+                    monitor.Notify(user.username + " is connected.");
+                    //SendMessageHistory(stream); //Here is what you missed
+                }
             }
 
 
             while (IsRunning) //The communication is up until the client disconnects
             {
-                /*
-                 * TO DO:
-                 * Read message (XML formatted)
-                */
-
                 int recv;
                 byte[] data = new byte[1024];
                 try
@@ -107,9 +110,15 @@ namespace VIAChatServer
                 if (recv == 0)
                     break;
 
-                Message msg = new Message();
-                msg.body = Encoding.ASCII.GetString(data, 0, recv);
-                msg.user_id = user.id;
+
+                XmlSerializer serializer = new XmlSerializer(typeof(Message));
+                Message msg;
+
+                using (MemoryStream ms = new MemoryStream(data))
+                {
+                    msg = (Message)serializer.Deserialize(ms);
+                }
+
 
                 /*
                  * TO DO:
@@ -166,10 +175,39 @@ namespace VIAChatServer
             using (ViaChatEntities db = new ViaChatEntities())
             {
                 db.Users.Add(user);
-                db.SaveChanges();
+                try
+                {
+                    db.SaveChanges();
+                }
+                catch(Exception e)
+                {
+                    success = false;
+                }
             }
 
             return success;
+        }
+
+
+        /*
+         * Authenticates a user by checking if there is a record in the DB
+         * where the useranme and password match
+         */
+        private bool AuthenticateUser(User user)
+        {
+            bool auth = false;
+            using (ViaChatEntities db = new ViaChatEntities())
+            {
+                var query = from u in db.Users
+                            where u.username == user.username
+                                  && u.password == user.password
+                            select u;
+
+                if (query.FirstOrDefault<User>() != null)
+                    auth = true;
+            }
+
+            return auth;
         }
 
 
