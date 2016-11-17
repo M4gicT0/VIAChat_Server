@@ -12,12 +12,11 @@ namespace VIAChatServer
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-    using System.Linq;
-
-    public partial class VIAChatEntities : DbContext
+    
+    public partial class ViaChatEntities : DbContext
     {
-        public VIAChatEntities()
-            : base("name=viachatEntities1")
+        public ViaChatEntities()
+            : base("name=ViaChatEntities")
         {
         }
     
