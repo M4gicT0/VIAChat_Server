@@ -26,6 +26,7 @@ namespace VIAChatServer
         public string password { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [System.Xml.Serialization.XmlIgnoreAttribute]
         public virtual ICollection<Message> Messages { get; set; }
     }
 }

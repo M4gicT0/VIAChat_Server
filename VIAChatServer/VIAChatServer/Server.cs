@@ -6,6 +6,7 @@ using System.Threading;
 using System.Linq;
 using System.IO;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace VIAChatServer
 {
@@ -69,23 +70,16 @@ namespace VIAChatServer
 
         private void SocketThread(NetworkStream stream) //method being threaded, handles the socket communication
         {
-            /*
-             * TO DO (once):
-             * Retrieve the client's userId from his username
-             * Send back his userid
-             * Send him the previous messages (from the database, XML or whatever)
-             * 
-             * foreach (messages as message)
-             *      stream.Write(message.GetBody(), 0, message.length);
-            */
 
-            SendMessageHistory(stream);
+            User user = KnockKnock(stream);
 
-            String userName = "theo_morales";
-            User user = FindUser(userName);
+            if (user == null)
+                return;
+
+            //SendMessageHistory(stream);
+
             monitor.AddUser(user);
-
-            monitor.Notify(userName + " is connected.");
+            monitor.Notify(user.username + " is connected.");
 
             while (isRunning) //The communication is up until the client disconnects
             {
@@ -116,10 +110,44 @@ namespace VIAChatServer
                  * TO DO:
                  * save message to database
                 */
-                
+
                 monitor.UserSays(user, msg);
             }
 
+        }
+
+
+        /*
+         * Handles the first action received from the client.
+         * Could be registration or login request.
+         * Returns true if the user is authenticated/registered
+         */
+        private User KnockKnock(NetworkStream stream)
+        {
+            int recv = 0;
+            byte[] data = new byte[1024];
+            User user = null;
+
+            while (recv == 0)
+            {
+                try
+                {
+                    recv = stream.Read(data, 0, data.Length);
+                }
+                catch (IOException)
+                {
+                    Console.WriteLine("TCP error");
+                }
+            }
+
+            XmlSerializer serializer = new XmlSerializer(typeof(User));
+
+            using (MemoryStream ms = new MemoryStream(data))
+            {
+                user = (User)serializer.Deserialize(ms);
+            }
+
+            return user;
         }
 
         private User FindUser(string username)
