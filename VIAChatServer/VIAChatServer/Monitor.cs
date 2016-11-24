@@ -74,6 +74,12 @@ namespace VIAChatServer
 
         private void refreshConnectedUsersList()
         {
+            if(connectedUsers.Count == 0)
+            {
+                usersList.Text = "";
+
+                return;
+            }
             foreach (User user in connectedUsers)
             {
                 this.Invoke((MethodInvoker)delegate {
@@ -88,6 +94,12 @@ namespace VIAChatServer
         public void AddUser(User user)
         {
             connectedUsers.Add(user);
+            refreshConnectedUsersList();
+        }
+
+        public void ResetOnlineUsers()
+        {
+            connectedUsers.Clear();
             refreshConnectedUsersList();
         }
 

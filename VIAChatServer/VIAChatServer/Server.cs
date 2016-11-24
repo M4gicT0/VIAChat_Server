@@ -7,6 +7,8 @@ using System.Linq;
 using System.IO;
 using System.Text;
 using System.Xml.Serialization;
+using System.ServiceModel;
+using System.ServiceModel.Description;
 
 namespace VIAChatServer
 {
@@ -15,6 +17,9 @@ namespace VIAChatServer
         private Monitor monitor;
         private TcpListener listener;
         private ArrayList clients;
+        private static ArrayList onlineUsers;
+        private ServiceHost host;
+        private Uri serviceUrl;
         public bool IsRunning { get; private set; }
         private Thread connectionsService;
         public int Port { get; set; }
@@ -23,19 +28,36 @@ namespace VIAChatServer
         {
             this.monitor = monitor;
             clients = new ArrayList();
+            onlineUsers = new ArrayList();
             IsRunning = false;
         }
 
         public void Start()
         {
+            /*
+             * Actual TCP server
+             */
             byte[] adr = { 127, 0, 0, 1 };
             IPAddress ipAdr = new IPAddress(adr);
             listener = new TcpListener(ipAdr, Port);
             listener.Start();
             IsRunning = true;
+
+            /*
+             * Incoming connections thread
+             */
             connectionsService = new Thread(new ThreadStart(waitForConnections));
             connectionsService.IsBackground = true;
             connectionsService.Start();
+
+            /*
+             * Web service (for online users count)
+             */
+            serviceUrl = new Uri("http://localhost:8080/users");
+            host = new ServiceHost(typeof(OnlineUsersService), serviceUrl);
+            host.Open();
+            Console.WriteLine("The service is ready at http://localhost:8080/users");
+            Console.WriteLine("You can get the number of online users at: http://localhost:8080/users/online");
         }
 
         public void Stop()
@@ -44,6 +66,9 @@ namespace VIAChatServer
             {
                 IsRunning = false;
                 listener.Stop();
+                host.Close();
+                onlineUsers.Clear();
+                monitor.ResetOnlineUsers();
             }
         }
 
@@ -89,6 +114,7 @@ namespace VIAChatServer
 
                 if (authenticated) //Oh it's you ! It's been a while !
                 {
+                    onlineUsers.Add(user);
                     monitor.AddUser(user);
                     monitor.Notify(user.username + " is connected.");
                     //SendMessageHistory(stream); //Here is what you missed
@@ -257,6 +283,11 @@ namespace VIAChatServer
             {
                 stream.Write(Encoding.ASCII.GetBytes(message.body), 0, message.body.Length); //Writes the message body in the stream
             }
+        }
+
+        public static int NbOnlineUsers()
+        {
+            return onlineUsers.Count;
         }
     }
 }
