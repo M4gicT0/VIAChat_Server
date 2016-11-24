@@ -73,16 +73,18 @@ namespace VIAChatServer
 
             if (user == null) //It was just wind :/
                 return;
+
             else if(user.toBeRegistered) //Oh, a new face !
             {
+
                 bool registered = RegisterUser(user);
                 if (!registered) //I don't like you
                     return;
                 else
-                {
                     monitor.Notify(user.username + " has registered."); //Welcome to my house !
-                }
+
             } else { //Your face rings a bell ...
+
                 bool authenticated = AuthenticateUser(user); //Okay let me put on my glasses
 
                 if (authenticated) //Oh it's you ! It's been a while !
@@ -90,7 +92,9 @@ namespace VIAChatServer
                     monitor.AddUser(user);
                     monitor.Notify(user.username + " is connected.");
                     //SendMessageHistory(stream); //Here is what you missed
-                }
+                } else
+                    return;
+
             }
 
 
@@ -119,15 +123,9 @@ namespace VIAChatServer
                     msg = (Message)serializer.Deserialize(ms);
                 }
 
-
-                /*
-                 * TO DO:
-                 * save message to database
-                */
-
+                SaveMessage(msg, user);
                 monitor.UserSays(user, msg);
             }
-
         }
 
 
@@ -166,6 +164,30 @@ namespace VIAChatServer
 
 
         /*
+         * Saves a message in the database
+         */
+        private bool SaveMessage(Message msg, User user)
+        {
+            bool success = true;
+            using (ViaChatEntities db = new ViaChatEntities())
+            {
+                msg.User = user;
+                db.Messages.Add(msg);
+                try
+                {
+                    db.SaveChanges();
+                }
+                catch(Exception e)
+                {
+                    success = false;
+                    Console.WriteLine(e);
+                }
+            }
+
+            return success;
+        }
+
+        /*
          * Registers a user in the database
          * Returns true if success
          */
@@ -182,6 +204,7 @@ namespace VIAChatServer
                 catch(Exception e)
                 {
                     success = false;
+                    Console.WriteLine(e);
                 }
             }
 
