@@ -4,8 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-
-namespace VIAChatClient.Views
+namespace VIAChatClient
 {
     static class Program
     {
@@ -17,7 +16,7 @@ namespace VIAChatClient.Views
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainWindow());
+            Application.Run(new FormMainWindow());
         }
     }
 }

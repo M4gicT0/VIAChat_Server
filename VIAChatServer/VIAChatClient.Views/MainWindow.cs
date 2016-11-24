@@ -16,5 +16,24 @@ namespace VIAChatClient.Views
         {
             InitializeComponent();
         }
+
+        private void loginButton_Click(object sender, EventArgs e)
+        {
+            // Hide the current window
+            // Show the Login window
+            this.Hide();
+         
+            
+        }
+
+        private void creatAccountButton_Click(object sender, EventArgs e)
+        {
+            // Hide the current window
+            // Show the create window
+            this.Hide();
+            CreateAccountWindow createAccountWindow = new CreateAccountWindow();
+            createAccountWindow.Show();
+
+        }
     }
 }

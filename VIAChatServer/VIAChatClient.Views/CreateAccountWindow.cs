@@ -16,5 +16,25 @@ namespace VIAChatClient.Views
         {
             InitializeComponent();
         }
+
+        private void registerByCreatingAccountbutton_Click(object sender, EventArgs e)
+        {
+            // Check if all fields are filled
+            // Make connection to database
+            // Send the field to database
+            //Return user to login window
+
+            this.Hide();
+            //LoginWindow loginWindow = new LoginWindow();
+           // loginWindow.Show();
+
+        }
+
+        private void backButton_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
+        }
     }
 }
