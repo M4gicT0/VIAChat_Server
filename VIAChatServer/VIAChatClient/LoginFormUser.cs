@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace VIAChatClient
 {
-    public partial class LoginFormUserWindow : Form
+    public partial class LoginFormUserWindow : Form, View
     {
         private Client client;
 
@@ -61,6 +61,11 @@ namespace VIAChatClient
             this.Hide();
             var mainWindow = new FormMainWindow();
             mainWindow.Show();
+        }
+
+        public void Alert(String message)
+        {
+            MessageBox.Show(message);
         }
     }
 }

@@ -69,6 +69,7 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="View.cs" />
     <EmbeddedResource Include="CreateAccountWindow.resx">
       <DependentUpon>CreateAccountWindow.cs</DependentUpon>
     </EmbeddedResource>

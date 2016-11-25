@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace VIAChatClient.Models
+﻿namespace VIAChatClient.Models
 {
-    class Message
+    public class Message
     {
+        [System.Xml.Serialization.XmlIgnoreAttribute]
         public int id { get; set; }
+
         public string body { get; private set; }
         public int user_id { get; private set; }
 

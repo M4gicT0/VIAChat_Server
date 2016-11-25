@@ -1,18 +1,20 @@
 ﻿using System;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Xml;
+using System.Xml.Serialization;
 using VIAChatClient.Models;
 
 namespace VIAChatClient
 {
     class Client
     {
-        private TcpClient tcpClient;
         private Socket socket;
         private User user;
-        private System.Windows.Forms.Form view;
+        private View view;
 
-        public Client(System.Windows.Forms.Form view)
+        public Client(View view)
         {
             this.view = view;
         }
@@ -20,7 +22,17 @@ namespace VIAChatClient
         public bool Connect(String ip, int port)
         {
             bool success = false;
-            IPAddress ipAddr = IPAddress.Parse(ip); //Parse the String into an IPAddress object
+            IPAddress ipAddr = null;
+
+            try
+            {
+                ipAddr = IPAddress.Parse(ip); //Parse the String into an IPAddress object
+            }
+            catch(Exception e)
+            {
+                view.Alert("Bad IP address !");
+            }
+
             IPEndPoint remoteEP = new IPEndPoint(ipAddr, port);
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
@@ -42,7 +54,16 @@ namespace VIAChatClient
         {
             bool success = false;
             user = new User(username, email, password, true);
+            XmlSerializer serializer = new XmlSerializer(typeof(User));
 
+            using (var sWriter = new StringWriter())
+            {
+                using (XmlWriter writer = XmlWriter.Create(sWriter))
+                {
+                    serializer.Serialize(writer, user); //User object seriallized in XML format, written to a String
+                    Console.Write(sWriter.ToString());
+                }
+            }
 
             return success;
         }
@@ -51,6 +72,16 @@ namespace VIAChatClient
         {
             bool success = false;
             user = new User(username, password);
+            XmlSerializer serializer = new XmlSerializer(typeof(User));
+
+            using (var sWriter = new StringWriter())
+            {
+                using (XmlWriter writer = XmlWriter.Create(sWriter))
+                {
+                    serializer.Serialize(writer, user); //User object seriallized in XML format, written to a String
+                    Console.Write(sWriter.ToString());
+                }
+            }
 
             return success;
         }
