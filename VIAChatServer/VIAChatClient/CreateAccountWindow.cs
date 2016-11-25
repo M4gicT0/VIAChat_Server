@@ -11,9 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Serialization;
-
-// User from Common library 
-using User;
+using VIAChatClient.Models;
 
 namespace VIAChatClient
 {
@@ -27,7 +25,7 @@ namespace VIAChatClient
         public Socket socket;
         public string IpAddress { get; set; }
 
-        public User.User user;
+        private User user;
 
         public CreateAccountWindow()
         {
@@ -38,10 +36,8 @@ namespace VIAChatClient
 
         private void registerMeButton_Click(object sender, EventArgs e)
         {
-            user.username = userTextBox.Text;
-            user.email = emailTextBox.Text;
-            user.password = passwordTextBox.Text;
-            user.toBeRegistered = true;
+            user = new User(userTextBox.Text, emailTextBox.Text, passwordTextBox.Text, true);
+
             var hostnameProvided = hostIPAddressTextBoxCreate.Text;
             var portNameProvided = int.Parse(portTextBoxCreate.Text);
           
@@ -84,7 +80,7 @@ namespace VIAChatClient
                     // Connected if statement after while loop for socket connection
                     if (socket.Connected)
                     {
-                       XmlSerializer serializer = new XmlSerializer(typeof(User.User));
+                       XmlSerializer serializer = new XmlSerializer(typeof(User));
                         using (MemoryStream stream = new MemoryStream(data))
                         {
                             serializer.Serialize(stream,this);

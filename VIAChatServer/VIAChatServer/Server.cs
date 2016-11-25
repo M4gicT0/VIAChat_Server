@@ -106,7 +106,11 @@ namespace VIAChatServer
                 if (!registered) //I don't like you
                     return;
                 else
+                {
                     monitor.Notify(user.username + " has registered."); //Welcome to my house !
+                    monitor.AddUser(user);
+                    onlineUsers.Add(user);
+                }
 
             } else { //Your face rings a bell ...
 

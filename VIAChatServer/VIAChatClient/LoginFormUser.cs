@@ -10,9 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Serialization;
-
-// Using common user
-using User;
+using VIAChatClient.Models;
 
 namespace VIAChatClient
 {
@@ -25,7 +23,7 @@ namespace VIAChatClient
         public int Port { get; set; }
         public TcpClient client;
         public Socket socket;
-        public User.User user;
+        private User user;
 
         public LoginFormUserWindow()
         {
@@ -39,8 +37,8 @@ namespace VIAChatClient
         private void logMeInButtonLog_Click(object sender, EventArgs e)
         {
             
-            user.username = userNameTextBoxLog.Text;
-            user.password = passwordTextBoxLog.Text;
+            user = new User(userNameTextBoxLog.Text, passwordTextBoxLog.Text);
+
             var hostnameProvided = ipAddressTextBoxLog.Text;
             var portNameProvided = int.Parse(portTextBoxLog.Text);
             // Ask for connection from the server
@@ -86,7 +84,7 @@ namespace VIAChatClient
                     // Connected if statement after while loop for socket connection
                     if (socket.Connected)
                     {
-                        XmlSerializer serializer = new XmlSerializer(typeof(User.User));
+                        XmlSerializer serializer = new XmlSerializer(typeof(User));
                         using (MemoryStream stream = new MemoryStream(data))
                         {
                             serializer.Serialize(stream, this);
