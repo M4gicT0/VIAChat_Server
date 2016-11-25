@@ -55,21 +55,42 @@ namespace VIAChatClient
         {
             bool success = false;
             user = new User(username, email, password, true);
-            byte[] buffer = new byte[1024];
             XmlSerializer serializer = new XmlSerializer(typeof(User));
+            MemoryStream memoryStream = new MemoryStream();
 
-            using (var sWriter = new StringWriter())
+            using (StreamWriter writer = new StreamWriter(memoryStream, Encoding.UTF8))
             {
-                using (XmlWriter writer = XmlWriter.Create(sWriter))
+                serializer.Serialize(writer, user);
+                byte[] utf8EncodedXml = memoryStream.ToArray();
+                socket.Send(utf8EncodedXml);
+            }
+
+            int recv = 0;
+            byte[] data = new byte[1024];
+            Response response = null;
+
+            while (recv == 0)
+            {
+                try
                 {
-                    serializer.Serialize(writer, user); //User object seriallized in XML format, written to a String
-                    Console.Write(sWriter.ToString());
-                    buffer = Encoding.ASCII.GetBytes(sWriter.ToString());
-                    socket.Send(buffer); //Send the serialized user to the server
-                    buffer = new byte[1024]; //Clear the buffer for the response
-                    socket.Receive(buffer);
-                    view.Alert(Encoding.ASCII.GetString(buffer));
+                    recv = socket.Receive(data);
                 }
+                catch (IOException)
+                {
+                    Console.WriteLine("TCP error");
+                }
+            }
+
+            serializer = new XmlSerializer(typeof(Response));
+
+            using (MemoryStream ms = new MemoryStream(data))
+            {
+                response = (Response)serializer.Deserialize(ms);
+
+                if (response.success)
+                    success = true;
+                else
+                    view.Alert(response.body);
             }
 
             return success;
@@ -79,21 +100,42 @@ namespace VIAChatClient
         {
             bool success = false;
             user = new User(username, password);
-            byte[] buffer = new byte[1024];
             XmlSerializer serializer = new XmlSerializer(typeof(User));
+            MemoryStream memoryStream = new MemoryStream();
 
-            using (var sWriter = new StringWriter())
+            using (StreamWriter writer = new StreamWriter(memoryStream, Encoding.UTF8))
             {
-                using (XmlWriter writer = XmlWriter.Create(sWriter))
+                serializer.Serialize(writer, user);
+                byte[] utf8EncodedXml = memoryStream.ToArray();
+                socket.Send(utf8EncodedXml);
+            }
+
+            int recv = 0;
+            byte[] data = new byte[1024];
+            Response response = null;
+
+            while (recv == 0)
+            {
+                try
                 {
-                    serializer.Serialize(writer, user); //User object seriallized in XML format, written to a String
-                    Console.Write(sWriter.ToString());
-                    buffer = Encoding.ASCII.GetBytes(sWriter.ToString());
-                    socket.Send(buffer); //Send the serialized user to the server
-                    buffer = new byte[1024]; //Clear the buffer for the response
-                    socket.Receive(buffer);
-                    view.Alert(Encoding.ASCII.GetString(buffer));
+                    recv = socket.Receive(data);
                 }
+                catch (IOException)
+                {
+                    Console.WriteLine("TCP error");
+                }
+            }
+
+            serializer = new XmlSerializer(typeof(Response));
+
+            using (MemoryStream ms = new MemoryStream(data))
+            {
+                response = (Response)serializer.Deserialize(ms);
+
+                if (response.success)
+                    success = true;
+                else
+                    view.Alert(response.body);
             }
 
             return success;

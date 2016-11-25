@@ -16,9 +16,9 @@ namespace VIAChatClient
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            base.OnFormClosing(e);
             //Stop the socket before closing the application
             client.Close();
+            base.OnFormClosing(e);
         }
 
         private void registerMeButton_Click(object sender, EventArgs e)

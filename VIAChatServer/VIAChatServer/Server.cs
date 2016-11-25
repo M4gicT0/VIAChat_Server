@@ -8,6 +8,7 @@ using System.IO;
 using System.Text;
 using System.Xml.Serialization;
 using System.ServiceModel;
+using VIAChatServer.Models;
 
 namespace VIAChatServer
 {
@@ -101,7 +102,7 @@ namespace VIAChatServer
             else if(user.toBeRegistered) //Oh, a new face !
             {
 
-                bool registered = RegisterUser(user);
+                bool registered = RegisterUser(user, stream);
                 if (!registered) //I don't like you
                     return;
                 else
@@ -113,7 +114,7 @@ namespace VIAChatServer
 
             } else { //Your face rings a bell ...
 
-                bool authenticated = AuthenticateUser(user); //Okay let me put on my glasses
+                bool authenticated = AuthenticateUser(user, stream); //Okay let me put on my glasses
 
                 if (authenticated) //Oh it's you ! It's been a while !
                 {
@@ -220,7 +221,7 @@ namespace VIAChatServer
          * Registers a user in the database
          * Returns true if success
          */
-        private bool RegisterUser(User user)
+        private bool RegisterUser(User user, NetworkStream stream)
         {
             bool success = true;
             using (ViaChatEntities db = new ViaChatEntities())
@@ -229,10 +230,12 @@ namespace VIAChatServer
                 try
                 {
                     db.SaveChanges();
+                    SendResponse(true, "", stream);
                 }
                 catch(Exception e)
                 {
                     success = false;
+                    SendResponse(false, e.ToString(), stream);
                     Console.WriteLine(e);
                 }
             }
@@ -245,7 +248,7 @@ namespace VIAChatServer
          * Authenticates a user by checking if there is a record in the DB
          * where the useranme and password match
          */
-        private bool AuthenticateUser(User user)
+        private bool AuthenticateUser(User user, NetworkStream stream)
         {
             bool auth = false;
             using (ViaChatEntities db = new ViaChatEntities())
@@ -256,12 +259,32 @@ namespace VIAChatServer
                             select u;
 
                 if (query.FirstOrDefault<User>() != null)
+                {
                     auth = true;
+                    SendResponse(true, "", stream);
+                }
+                else
+                {
+                    SendResponse(false, "No user found with those credentials.", stream);
+                }
             }
 
             return auth;
         }
 
+        private void SendResponse(bool success, String body, NetworkStream stream)
+        {
+            Response response = new Response(success, body);
+            XmlSerializer serializer = new XmlSerializer(typeof(Response));
+            MemoryStream memoryStream = new MemoryStream();
+
+            using (StreamWriter writer = new StreamWriter(memoryStream, Encoding.UTF8))
+            {
+                serializer.Serialize(writer, response);
+                byte[] utf8EncodedXml = memoryStream.ToArray();
+                stream.Write(utf8EncodedXml, 0, utf8EncodedXml.Length);
+            }
+        }
 
         private User FindUser(string username)
         {
