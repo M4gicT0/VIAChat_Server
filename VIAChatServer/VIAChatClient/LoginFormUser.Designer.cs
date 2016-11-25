@@ -55,9 +55,8 @@
             // userNameTextBoxLog
             // 
             this.userNameTextBoxLog.Location = new System.Drawing.Point(331, 154);
-            this.userNameTextBoxLog.Multiline = true;
             this.userNameTextBoxLog.Name = "userNameTextBoxLog";
-            this.userNameTextBoxLog.Size = new System.Drawing.Size(367, 32);
+            this.userNameTextBoxLog.Size = new System.Drawing.Size(367, 22);
             this.userNameTextBoxLog.TabIndex = 1;
             // 
             // userNameLabelLog
@@ -83,10 +82,9 @@
             // passwordTextBoxLog
             // 
             this.passwordTextBoxLog.Location = new System.Drawing.Point(331, 201);
-            this.passwordTextBoxLog.Multiline = true;
             this.passwordTextBoxLog.Name = "passwordTextBoxLog";
             this.passwordTextBoxLog.PasswordChar = '*';
-            this.passwordTextBoxLog.Size = new System.Drawing.Size(367, 32);
+            this.passwordTextBoxLog.Size = new System.Drawing.Size(367, 22);
             this.passwordTextBoxLog.TabIndex = 1;
             // 
             // ipAddressLabelLog
@@ -102,17 +100,17 @@
             // ipAddressTextBoxLog
             // 
             this.ipAddressTextBoxLog.Location = new System.Drawing.Point(331, 250);
-            this.ipAddressTextBoxLog.Multiline = true;
+            this.ipAddressTextBoxLog.MaxLength = 11;
             this.ipAddressTextBoxLog.Name = "ipAddressTextBoxLog";
-            this.ipAddressTextBoxLog.Size = new System.Drawing.Size(171, 32);
+            this.ipAddressTextBoxLog.Size = new System.Drawing.Size(171, 22);
             this.ipAddressTextBoxLog.TabIndex = 1;
             // 
             // portTextBoxLog
             // 
             this.portTextBoxLog.Location = new System.Drawing.Point(581, 250);
-            this.portTextBoxLog.Multiline = true;
+            this.portTextBoxLog.MaxLength = 5;
             this.portTextBoxLog.Name = "portTextBoxLog";
-            this.portTextBoxLog.Size = new System.Drawing.Size(117, 32);
+            this.portTextBoxLog.Size = new System.Drawing.Size(117, 22);
             this.portTextBoxLog.TabIndex = 1;
             // 
             // portLabel

@@ -8,7 +8,6 @@ using System.IO;
 using System.Text;
 using System.Xml.Serialization;
 using System.ServiceModel;
-using System.ServiceModel.Description;
 
 namespace VIAChatServer
 {
@@ -55,7 +54,7 @@ namespace VIAChatServer
              */
             serviceUrl = new Uri("http://localhost:8080/users");
             host = new ServiceHost(typeof(OnlineUsersService), serviceUrl);
-            host.Open();
+            //host.Open();
             Console.WriteLine("The service is ready at http://localhost:8080/users");
             Console.WriteLine("You can get the number of online users at: http://localhost:8080/users/online");
         }

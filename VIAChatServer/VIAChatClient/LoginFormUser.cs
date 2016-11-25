@@ -12,42 +12,47 @@ namespace VIAChatClient
             InitializeComponent();
 
             client = new Client(this);
-            logMeInButtonLog.Enabled = false; // Disable the login button
+        }
 
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            base.OnFormClosing(e);
+            //Stop the socket before closing the application
+            client.Close();
         }
 
         private void logMeInButtonLog_Click(object sender, EventArgs e)
         {
+            if (ipAddressTextBoxLog.Text == "" || portTextBoxLog.Text == "")
+            {
+                MessageBox.Show("IP Address and Port mustn't be empty !");
+
+                return;
+            }
+
             String ip = ipAddressTextBoxLog.Text;
             int port = int.Parse(portTextBoxLog.Text);
+           
+            bool connected = client.Connect(ip, port);
 
-            if (ip == "" && port == 0)
+            if (connected)
             {
-                bool connected = client.Connect(ip, port);
-
-                if (connected)
+                if (client.LoginUser(userNameTextBoxLog.Text, passwordTextBoxLog.Text))
                 {
-                    if (client.LoginUser(userNameTextBoxLog.Text, passwordTextBoxLog.Text))
-                    {
-                        MessageBox.Show("User successfuly logged in !");
-                        /*
-                         * TO DO :
-                         * Show chat window
-                         */
-                    }
-                    else
-                    {
-                        MessageBox.Show("Login error !");
-                    }
+                    MessageBox.Show("User successfuly logged in !");
+                    /*
+                        * TO DO :
+                        * Show chat window
+                        */
                 }
                 else
                 {
-                    MessageBox.Show("Error connecting to the server !");
+                    MessageBox.Show("Login error !");
                 }
             }
             else
             {
-                MessageBox.Show("Fields ip  and port address requied");
+                MessageBox.Show("Error connecting to the server !");
             }
         }
 

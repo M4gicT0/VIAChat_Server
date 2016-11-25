@@ -79,9 +79,8 @@
             // userTextBox
             // 
             this.userTextBox.Location = new System.Drawing.Point(525, 152);
-            this.userTextBox.Multiline = true;
             this.userTextBox.Name = "userTextBox";
-            this.userTextBox.Size = new System.Drawing.Size(225, 32);
+            this.userTextBox.Size = new System.Drawing.Size(225, 29);
             this.userTextBox.TabIndex = 2;
             // 
             // userNamelabel
@@ -109,9 +108,8 @@
             // emailTextBox
             // 
             this.emailTextBox.Location = new System.Drawing.Point(525, 200);
-            this.emailTextBox.Multiline = true;
             this.emailTextBox.Name = "emailTextBox";
-            this.emailTextBox.Size = new System.Drawing.Size(225, 32);
+            this.emailTextBox.Size = new System.Drawing.Size(225, 29);
             this.emailTextBox.TabIndex = 2;
             // 
             // passwordLabel
@@ -128,10 +126,9 @@
             // passwordTextBox
             // 
             this.passwordTextBox.Location = new System.Drawing.Point(525, 251);
-            this.passwordTextBox.Multiline = true;
             this.passwordTextBox.Name = "passwordTextBox";
             this.passwordTextBox.PasswordChar = '*';
-            this.passwordTextBox.Size = new System.Drawing.Size(225, 32);
+            this.passwordTextBox.Size = new System.Drawing.Size(225, 29);
             this.passwordTextBox.TabIndex = 2;
             // 
             // hostIPAddresslabelCreate
@@ -148,19 +145,17 @@
             // portTextBoxCreate
             // 
             this.portTextBoxCreate.Location = new System.Drawing.Point(658, 289);
-            this.portTextBoxCreate.Multiline = true;
+            this.portTextBoxCreate.MaxLength = 5;
             this.portTextBoxCreate.Name = "portTextBoxCreate";
-            this.portTextBoxCreate.PasswordChar = '*';
-            this.portTextBoxCreate.Size = new System.Drawing.Size(92, 32);
+            this.portTextBoxCreate.Size = new System.Drawing.Size(92, 29);
             this.portTextBoxCreate.TabIndex = 2;
             // 
             // hostIPAddressTextBoxCreate
             // 
             this.hostIPAddressTextBoxCreate.Location = new System.Drawing.Point(328, 289);
-            this.hostIPAddressTextBoxCreate.Multiline = true;
+            this.hostIPAddressTextBoxCreate.MaxLength = 11;
             this.hostIPAddressTextBoxCreate.Name = "hostIPAddressTextBoxCreate";
-            this.hostIPAddressTextBoxCreate.PasswordChar = '*';
-            this.hostIPAddressTextBoxCreate.Size = new System.Drawing.Size(225, 32);
+            this.hostIPAddressTextBoxCreate.Size = new System.Drawing.Size(225, 29);
             this.hostIPAddressTextBoxCreate.TabIndex = 2;
             // 
             // portLabel

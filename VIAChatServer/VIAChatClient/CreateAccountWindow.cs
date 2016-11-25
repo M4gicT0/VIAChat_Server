@@ -12,12 +12,28 @@ namespace VIAChatClient
             InitializeComponent();
 
             client = new Client(this);
-            registerMeButton.Enabled = false;
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            base.OnFormClosing(e);
+            //Stop the socket before closing the application
+            client.Close();
         }
 
         private void registerMeButton_Click(object sender, EventArgs e)
         {
-            bool connected = client.Connect(hostIPAddressTextBoxCreate.Text, int.Parse(portTextBoxCreate.Text));
+
+            if (hostIPAddressTextBoxCreate.Text == "" || portTextBoxCreate.Text == "")
+            {
+                MessageBox.Show("IP Address and Port mustn't be empty !");
+
+                return;
+            }
+
+            String ip = hostIPAddressTextBoxCreate.Text;
+            int port = int.Parse(portTextBoxCreate.Text);
+            bool connected = client.Connect(ip, port);
 
             if(connected)
             {
