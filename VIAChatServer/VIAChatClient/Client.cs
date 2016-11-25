@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 using VIAChatClient.Models;
@@ -54,6 +55,7 @@ namespace VIAChatClient
         {
             bool success = false;
             user = new User(username, email, password, true);
+            byte[] buffer = new byte[1024];
             XmlSerializer serializer = new XmlSerializer(typeof(User));
 
             using (var sWriter = new StringWriter())
@@ -62,6 +64,11 @@ namespace VIAChatClient
                 {
                     serializer.Serialize(writer, user); //User object seriallized in XML format, written to a String
                     Console.Write(sWriter.ToString());
+                    buffer = Encoding.ASCII.GetBytes(sWriter.ToString());
+                    socket.Send(buffer); //Send the serialized user to the server
+                    buffer = new byte[1024]; //Clear the buffer for the response
+                    socket.Receive(buffer);
+                    view.Alert(Encoding.ASCII.GetString(buffer));
                 }
             }
 
@@ -72,6 +79,7 @@ namespace VIAChatClient
         {
             bool success = false;
             user = new User(username, password);
+            byte[] buffer = new byte[1024];
             XmlSerializer serializer = new XmlSerializer(typeof(User));
 
             using (var sWriter = new StringWriter())
@@ -80,6 +88,11 @@ namespace VIAChatClient
                 {
                     serializer.Serialize(writer, user); //User object seriallized in XML format, written to a String
                     Console.Write(sWriter.ToString());
+                    buffer = Encoding.ASCII.GetBytes(sWriter.ToString());
+                    socket.Send(buffer); //Send the serialized user to the server
+                    buffer = new byte[1024]; //Clear the buffer for the response
+                    socket.Receive(buffer);
+                    view.Alert(Encoding.ASCII.GetString(buffer));
                 }
             }
 
