@@ -5,13 +5,13 @@ namespace VIAChatClient
 {
     public partial class LoginFormUserWindow : Form, View
     {
-        private Client client;
+        private ClientController client;
 
         public LoginFormUserWindow()
         {
             InitializeComponent();
 
-            client = new Client(this);
+            client = new ClientController(this);
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)

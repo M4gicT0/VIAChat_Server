@@ -9,13 +9,13 @@ using VIAChatClient.Models;
 
 namespace VIAChatClient
 {
-    class Client
+    class ClientController
     {
         private Socket socket;
         private User user;
         private View view;
 
-        public Client(View view)
+        public ClientController(View view)
         {
             this.view = view;
         }
