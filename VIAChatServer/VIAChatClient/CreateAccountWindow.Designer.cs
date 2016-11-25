@@ -37,6 +37,10 @@
             this.emailTextBox = new System.Windows.Forms.TextBox();
             this.passwordLabel = new System.Windows.Forms.Label();
             this.passwordTextBox = new System.Windows.Forms.TextBox();
+            this.hostIPAddresslabelCreate = new System.Windows.Forms.Label();
+            this.portTextBoxCreate = new System.Windows.Forms.TextBox();
+            this.hostIPAddressTextBoxCreate = new System.Windows.Forms.TextBox();
+            this.portLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -130,14 +134,58 @@
             this.passwordTextBox.Size = new System.Drawing.Size(225, 32);
             this.passwordTextBox.TabIndex = 2;
             // 
+            // hostIPAddresslabelCreate
+            // 
+            this.hostIPAddresslabelCreate.AutoSize = true;
+            this.hostIPAddresslabelCreate.Font = new System.Drawing.Font("Segoe UI", 14F);
+            this.hostIPAddresslabelCreate.Location = new System.Drawing.Point(250, 296);
+            this.hostIPAddresslabelCreate.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.hostIPAddresslabelCreate.Name = "hostIPAddresslabelCreate";
+            this.hostIPAddresslabelCreate.Size = new System.Drawing.Size(71, 25);
+            this.hostIPAddresslabelCreate.TabIndex = 0;
+            this.hostIPAddresslabelCreate.Text = "Host IP";
+            // 
+            // portTextBoxCreate
+            // 
+            this.portTextBoxCreate.Location = new System.Drawing.Point(658, 289);
+            this.portTextBoxCreate.Multiline = true;
+            this.portTextBoxCreate.Name = "portTextBoxCreate";
+            this.portTextBoxCreate.PasswordChar = '*';
+            this.portTextBoxCreate.Size = new System.Drawing.Size(92, 32);
+            this.portTextBoxCreate.TabIndex = 2;
+            // 
+            // hostIPAddressTextBoxCreate
+            // 
+            this.hostIPAddressTextBoxCreate.Location = new System.Drawing.Point(328, 289);
+            this.hostIPAddressTextBoxCreate.Multiline = true;
+            this.hostIPAddressTextBoxCreate.Name = "hostIPAddressTextBoxCreate";
+            this.hostIPAddressTextBoxCreate.PasswordChar = '*';
+            this.hostIPAddressTextBoxCreate.Size = new System.Drawing.Size(225, 32);
+            this.hostIPAddressTextBoxCreate.TabIndex = 2;
+            // 
+            // portLabel
+            // 
+            this.portLabel.AutoSize = true;
+            this.portLabel.Font = new System.Drawing.Font("Segoe UI", 14F);
+            this.portLabel.Location = new System.Drawing.Point(591, 296);
+            this.portLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.portLabel.Name = "portLabel";
+            this.portLabel.Size = new System.Drawing.Size(46, 25);
+            this.portLabel.TabIndex = 0;
+            this.portLabel.Text = "Port";
+            // 
             // CreateAccountWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(55)))), ((int)(((byte)(55)))));
             this.ClientSize = new System.Drawing.Size(985, 562);
+            this.Controls.Add(this.hostIPAddressTextBoxCreate);
+            this.Controls.Add(this.portTextBoxCreate);
             this.Controls.Add(this.passwordTextBox);
             this.Controls.Add(this.emailTextBox);
+            this.Controls.Add(this.portLabel);
+            this.Controls.Add(this.hostIPAddresslabelCreate);
             this.Controls.Add(this.userTextBox);
             this.Controls.Add(this.passwordLabel);
             this.Controls.Add(this.backToMainButton);
@@ -168,5 +216,9 @@
         private System.Windows.Forms.TextBox emailTextBox;
         private System.Windows.Forms.Label passwordLabel;
         private System.Windows.Forms.TextBox passwordTextBox;
+        private System.Windows.Forms.Label hostIPAddresslabelCreate;
+        private System.Windows.Forms.TextBox portTextBoxCreate;
+        private System.Windows.Forms.TextBox hostIPAddressTextBoxCreate;
+        private System.Windows.Forms.Label portLabel;
     }
 }

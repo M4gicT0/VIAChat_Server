@@ -6,8 +6,13 @@ using System.Threading.Tasks;
 
 namespace User
 {
-    public class User
+    public partial class User
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public User()
+        {
+           
+        }
 
         public int id { get; set; }
         public string username { get; set; }
