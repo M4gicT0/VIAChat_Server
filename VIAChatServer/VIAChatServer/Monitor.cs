@@ -74,7 +74,9 @@ namespace VIAChatServer
         {
             if(connectedUsers.Count == 0)
             {
-                usersList.Text = "";
+                this.Invoke((MethodInvoker)delegate {
+                    usersList.Text = "";
+                });
 
                 return;
             }
@@ -92,6 +94,12 @@ namespace VIAChatServer
         public void AddUser(User user)
         {
             connectedUsers.Add(user);
+            refreshConnectedUsersList();
+        }
+
+        public void RemoveUser(User user)
+        {
+            connectedUsers.Remove(user);
             refreshConnectedUsersList();
         }
 

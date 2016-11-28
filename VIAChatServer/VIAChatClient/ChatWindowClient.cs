@@ -14,6 +14,13 @@ namespace VIAChatClient
             PopulateOnlineUsers();
         }
 
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            //Stop the socket before closing the application
+            client.Close();
+            base.OnFormClosing(e);
+        }
+
         public void Alert(string message)
         {
             MessageBox.Show(message);

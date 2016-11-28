@@ -54,7 +54,7 @@ namespace VIAChatClient
         private void backToMainButton_Click(object sender, EventArgs e)
         {
             // Return to the main window
-            this.Hide();
+            this.Close();
            var mainWindow = new FormMainWindow();
             mainWindow.Show();
         }

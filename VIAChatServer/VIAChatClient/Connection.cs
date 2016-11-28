@@ -50,8 +50,11 @@ namespace VIAChatClient
 
         public void Close()
         {
-            socket.Shutdown(SocketShutdown.Both);
-            socket.Close();
+            if(socket != null)
+            {
+                socket.Shutdown(SocketShutdown.Both);
+                socket.Close();
+            }
         }
     }
 }

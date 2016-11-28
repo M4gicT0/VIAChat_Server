@@ -16,8 +16,6 @@ namespace VIAChatClient
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            //Stop the socket before closing the application
-            client.Close();
             base.OnFormClosing(e);
         }
 
@@ -40,7 +38,7 @@ namespace VIAChatClient
                 if (client.LoginUser(userNameTextBoxLog.Text, passwordTextBoxLog.Text))
                 {
                     MessageBox.Show("User successfuly logged in !");
-                    this.Hide();
+                    this.Close();
                     (new ChatWindowClient()).Show();
                 }
                 else
@@ -56,7 +54,7 @@ namespace VIAChatClient
 
         private void backbButtonLog_Click(object sender, EventArgs e)
         {
-            this.Hide();
+            this.Close();
             var mainWindow = new FormMainWindow();
             mainWindow.Show();
         }

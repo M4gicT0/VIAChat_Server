@@ -108,8 +108,6 @@ namespace VIAChatServer
                 else
                 {
                     monitor.Notify(user.username + " has registered."); //Welcome to my house !
-                    monitor.AddUser(user);
-                    onlineUsers.Add(user);
                 }
 
             } else { //Your face rings a bell ...
@@ -156,6 +154,9 @@ namespace VIAChatServer
                 SaveMessage(msg, user);
                 monitor.UserSays(user, msg);
             }
+
+            monitor.Notify(user.username + " is disconnected.");
+            monitor.RemoveUser(user);
         }
 
 
