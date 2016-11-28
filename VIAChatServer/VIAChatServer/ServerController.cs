@@ -120,7 +120,7 @@ namespace VIAChatServer
                     onlineUsers.Add(authedUser);
                     monitor.AddUser(authedUser);
                     monitor.Notify(authedUser.username + " is connected.");
-                    //SendMessageHistory(stream); //Here is what you missed
+                    SendMessageHistory(stream); //Here is what you missed
                 } else
                     return;
 
@@ -313,10 +313,17 @@ namespace VIAChatServer
         private void SendMessageHistory(NetworkStream stream)
         {
             ViaChatEntities context = new ViaChatEntities();
+            byte[] nbMessages = BitConverter.GetBytes(context.Messages.Count<Message>());
+
+            stream.Write(nbMessages, 0, nbMessages.Length); //Send number of messages to be read
 
             foreach(Message message in context.Messages)
             {
-                stream.Write(Encoding.ASCII.GetBytes(message.body), 0, message.body.Length); //Writes the message body in the stream
+                string body = message.body;
+                string username = message.User.username;
+                byte[] historyEntry = Encoding.ASCII.GetBytes(username + ": " + body + "\n");
+
+                stream.Write(historyEntry, 0, historyEntry.Length); //Writes the message body in the stream
             }
         }
 

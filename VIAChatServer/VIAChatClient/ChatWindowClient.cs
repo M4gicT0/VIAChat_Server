@@ -12,6 +12,7 @@ namespace VIAChatClient
 
             client = new ClientController(this);
             PopulateOnlineUsers();
+            PopulateMessageHistory();
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
@@ -28,6 +29,16 @@ namespace VIAChatClient
 
         private void PopulateOnlineUsers()
         {
+        }
+
+        private void PopulateMessageHistory()
+        {
+            string[] history = client.ReceiveHistory();
+
+            for(int i = 0; i < history.Length; i++)
+            {
+                conversationBox.AppendText(history[i]);
+            }
         }
 
         private void sendMessageButton_Click(object sender, System.EventArgs e)

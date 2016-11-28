@@ -1,9 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Net;
-using System.Net.Sockets;
 using System.Text;
-using System.Xml;
 using System.Xml.Serialization;
 using VIAChatClient.Models;
 
@@ -187,6 +185,36 @@ namespace VIAChatClient
             }
 
             return success;
+        }
+
+        public string[] ReceiveHistory()
+        {
+            string[] history = null;
+            byte[] nbMsgs = new Byte[4];
+            connection.Receive(nbMsgs);
+            int nbMessages = BitConverter.ToInt32(nbMsgs, 0);
+            history = new String[nbMessages];
+
+            for(int i = 0; i < nbMessages; i++)
+            {
+                int recv = 0;
+                byte[] data = new Byte[1024];
+
+                while (recv == 0)
+                {
+                    try
+                    {
+                        recv = connection.Receive(data);
+                        history[i] = Encoding.UTF8.GetString(data);
+                    }
+                    catch (IOException)
+                    {
+                        Console.WriteLine("TCP error");
+                    }
+                }
+            }
+
+            return history;
         }
 
         public void Close()
