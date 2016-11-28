@@ -142,6 +142,53 @@ namespace VIAChatClient
             return success;
         }
 
+        public bool SendMessage(String body)
+        {
+            bool success = false;
+            Message message = new Message(body);
+            XmlSerializer serializer = new XmlSerializer(typeof(Message));
+            MemoryStream memoryStream = new MemoryStream();
+
+            using (StreamWriter writer = new StreamWriter(memoryStream, Encoding.UTF8))
+            {
+                serializer.Serialize(writer, message);
+                byte[] utf8EncodedXml = memoryStream.ToArray();
+                connection.Send(utf8EncodedXml);
+            }
+
+            int recv = 0;
+            byte[] data = new byte[1024];
+            Response response = null;
+
+            while (recv == 0)
+            {
+                try
+                {
+                    recv = connection.Receive(data);
+                }
+                catch (IOException)
+                {
+                    Console.WriteLine("TCP error");
+                }
+            }
+
+            serializer = new XmlSerializer(typeof(Response));
+
+            using (MemoryStream ms = new MemoryStream(data))
+            {
+                response = (Response)serializer.Deserialize(ms);
+
+                if (response.success)
+                {
+                    success = true;
+                }
+                else
+                    view.Alert(response.body);
+            }
+
+            return success;
+        }
+
         public void Close()
         {
             connection.Close();

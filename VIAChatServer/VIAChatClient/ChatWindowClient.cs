@@ -32,7 +32,16 @@ namespace VIAChatClient
 
         private void sendMessageButton_Click(object sender, System.EventArgs e)
         {
-            
+            string body = messageInput.Text;
+            messageInput.Text = "";
+
+            if (client.SendMessage(body))
+            {
+                conversationBox.AppendText("You: " + body + "\n");
+            } else
+            {
+                MessageBox.Show("Error sending message !");
+            }
         }
 
         private void messageInput_TextChanged(object sender, System.EventArgs e)

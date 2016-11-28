@@ -60,7 +60,7 @@
             this.registerMeButton.Location = new System.Drawing.Point(512, 360);
             this.registerMeButton.Name = "registerMeButton";
             this.registerMeButton.Size = new System.Drawing.Size(238, 45);
-            this.registerMeButton.TabIndex = 1;
+            this.registerMeButton.TabIndex = 6;
             this.registerMeButton.Text = "Register me";
             this.registerMeButton.UseVisualStyleBackColor = true;
             this.registerMeButton.Click += new System.EventHandler(this.registerMeButton_Click);
@@ -71,7 +71,7 @@
             this.backToMainButton.Location = new System.Drawing.Point(247, 360);
             this.backToMainButton.Name = "backToMainButton";
             this.backToMainButton.Size = new System.Drawing.Size(238, 45);
-            this.backToMainButton.TabIndex = 1;
+            this.backToMainButton.TabIndex = 7;
             this.backToMainButton.Text = "Back";
             this.backToMainButton.UseVisualStyleBackColor = true;
             this.backToMainButton.Click += new System.EventHandler(this.backToMainButton_Click);
@@ -81,7 +81,7 @@
             this.userTextBox.Location = new System.Drawing.Point(525, 152);
             this.userTextBox.Name = "userTextBox";
             this.userTextBox.Size = new System.Drawing.Size(225, 29);
-            this.userTextBox.TabIndex = 2;
+            this.userTextBox.TabIndex = 1;
             // 
             // userNamelabel
             // 
@@ -129,7 +129,7 @@
             this.passwordTextBox.Name = "passwordTextBox";
             this.passwordTextBox.PasswordChar = '*';
             this.passwordTextBox.Size = new System.Drawing.Size(225, 29);
-            this.passwordTextBox.TabIndex = 2;
+            this.passwordTextBox.TabIndex = 3;
             // 
             // hostIPAddresslabelCreate
             // 
@@ -148,7 +148,8 @@
             this.portTextBoxCreate.MaxLength = 5;
             this.portTextBoxCreate.Name = "portTextBoxCreate";
             this.portTextBoxCreate.Size = new System.Drawing.Size(92, 29);
-            this.portTextBoxCreate.TabIndex = 2;
+            this.portTextBoxCreate.TabIndex = 5;
+            this.portTextBoxCreate.Text = "1234";
             // 
             // hostIPAddressTextBoxCreate
             // 
@@ -156,7 +157,8 @@
             this.hostIPAddressTextBoxCreate.MaxLength = 11;
             this.hostIPAddressTextBoxCreate.Name = "hostIPAddressTextBoxCreate";
             this.hostIPAddressTextBoxCreate.Size = new System.Drawing.Size(225, 29);
-            this.hostIPAddressTextBoxCreate.TabIndex = 2;
+            this.hostIPAddressTextBoxCreate.TabIndex = 4;
+            this.hostIPAddressTextBoxCreate.Text = "127.0.0.1";
             // 
             // portLabel
             // 

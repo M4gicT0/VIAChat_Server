@@ -61,7 +61,7 @@
             this.createButton.Location = new System.Drawing.Point(345, 349);
             this.createButton.Name = "createButton";
             this.createButton.Size = new System.Drawing.Size(302, 56);
-            this.createButton.TabIndex = 1;
+            this.createButton.TabIndex = 2;
             this.createButton.Text = "Create an Account";
             this.createButton.UseVisualStyleBackColor = true;
             this.createButton.Click += new System.EventHandler(this.createButton_Click);

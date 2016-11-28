@@ -85,7 +85,7 @@
             this.passwordTextBoxLog.Name = "passwordTextBoxLog";
             this.passwordTextBoxLog.PasswordChar = '*';
             this.passwordTextBoxLog.Size = new System.Drawing.Size(367, 22);
-            this.passwordTextBoxLog.TabIndex = 1;
+            this.passwordTextBoxLog.TabIndex = 2;
             // 
             // ipAddressLabelLog
             // 
@@ -103,7 +103,8 @@
             this.ipAddressTextBoxLog.MaxLength = 11;
             this.ipAddressTextBoxLog.Name = "ipAddressTextBoxLog";
             this.ipAddressTextBoxLog.Size = new System.Drawing.Size(171, 22);
-            this.ipAddressTextBoxLog.TabIndex = 1;
+            this.ipAddressTextBoxLog.TabIndex = 3;
+            this.ipAddressTextBoxLog.Text = "127.0.0.1";
             // 
             // portTextBoxLog
             // 
@@ -111,7 +112,8 @@
             this.portTextBoxLog.MaxLength = 5;
             this.portTextBoxLog.Name = "portTextBoxLog";
             this.portTextBoxLog.Size = new System.Drawing.Size(117, 22);
-            this.portTextBoxLog.TabIndex = 1;
+            this.portTextBoxLog.TabIndex = 4;
+            this.portTextBoxLog.Text = "1234";
             // 
             // portLabel
             // 
@@ -130,7 +132,7 @@
             this.logMeInButtonLog.Location = new System.Drawing.Point(477, 361);
             this.logMeInButtonLog.Name = "logMeInButtonLog";
             this.logMeInButtonLog.Size = new System.Drawing.Size(221, 59);
-            this.logMeInButtonLog.TabIndex = 2;
+            this.logMeInButtonLog.TabIndex = 5;
             this.logMeInButtonLog.Text = "Log me in ";
             this.logMeInButtonLog.UseVisualStyleBackColor = true;
             this.logMeInButtonLog.Click += new System.EventHandler(this.logMeInButtonLog_Click);
@@ -142,7 +144,7 @@
             this.backbButtonLog.Location = new System.Drawing.Point(188, 361);
             this.backbButtonLog.Name = "backbButtonLog";
             this.backbButtonLog.Size = new System.Drawing.Size(221, 59);
-            this.backbButtonLog.TabIndex = 2;
+            this.backbButtonLog.TabIndex = 6;
             this.backbButtonLog.Text = "Back";
             this.backbButtonLog.UseVisualStyleBackColor = true;
             this.backbButtonLog.Click += new System.EventHandler(this.backbButtonLog_Click);

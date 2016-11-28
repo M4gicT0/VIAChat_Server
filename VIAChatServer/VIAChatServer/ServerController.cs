@@ -95,6 +95,7 @@ namespace VIAChatServer
         {
 
             User user = KnockKnock(stream); //Open the door ...
+            User authedUser = null;
 
             if (user == null) //It was just wind :/
                 return;
@@ -112,13 +113,13 @@ namespace VIAChatServer
 
             } else { //Your face rings a bell ...
 
-                bool authenticated = AuthenticateUser(user, stream); //Okay let me put on my glasses
+                bool authenticated = AuthenticateUser(user, out authedUser, stream); //Okay let me put on my glasses
 
                 if (authenticated) //Oh it's you ! It's been a while !
                 {
-                    onlineUsers.Add(user);
-                    monitor.AddUser(user);
-                    monitor.Notify(user.username + " is connected.");
+                    onlineUsers.Add(authedUser);
+                    monitor.AddUser(authedUser);
+                    monitor.Notify(authedUser.username + " is connected.");
                     //SendMessageHistory(stream); //Here is what you missed
                 } else
                     return;
@@ -126,7 +127,7 @@ namespace VIAChatServer
             }
 
 
-            while (IsRunning) //The communication is up until the client disconnects
+            while (IsRunning && authedUser != null) //The communication is up until the client disconnects
             {
                 int recv;
                 byte[] data = new byte[1024];
@@ -151,8 +152,8 @@ namespace VIAChatServer
                     msg = (Message)serializer.Deserialize(ms);
                 }
 
-                SaveMessage(msg, user);
-                monitor.UserSays(user, msg);
+                SaveMessage(msg, authedUser, stream);
+                monitor.UserSays(authedUser, msg);
             }
 
             monitor.Notify(user.username + " is disconnected.");
@@ -197,20 +198,22 @@ namespace VIAChatServer
         /*
          * Saves a message in the database
          */
-        private bool SaveMessage(Message msg, User user)
+        private bool SaveMessage(Message msg, User user, NetworkStream stream)
         {
             bool success = true;
             using (ViaChatEntities db = new ViaChatEntities())
             {
-                msg.User = user;
+                msg.user_id = user.id;
                 db.Messages.Add(msg);
                 try
                 {
                     db.SaveChanges();
+                    SendResponse(true, "", stream);
                 }
                 catch(Exception e)
                 {
                     success = false;
+                    SendResponse(false, e.ToString(), stream);
                     Console.WriteLine(e);
                 }
             }
@@ -249,9 +252,11 @@ namespace VIAChatServer
          * Authenticates a user by checking if there is a record in the DB
          * where the useranme and password match
          */
-        private bool AuthenticateUser(User user, NetworkStream stream)
+        private bool AuthenticateUser(User user, out User authedUser, NetworkStream stream)
         {
             bool auth = false;
+            User found = null;
+
             using (ViaChatEntities db = new ViaChatEntities())
             {
                 var query = from u in db.Users
@@ -262,6 +267,7 @@ namespace VIAChatServer
                 if (query.FirstOrDefault<User>() != null)
                 {
                     auth = true;
+                    found = query.FirstOrDefault<User>();
                     SendResponse(true, "", stream);
                 }
                 else
@@ -269,6 +275,8 @@ namespace VIAChatServer
                     SendResponse(false, "No user found with those credentials.", stream);
                 }
             }
+
+            authedUser = found;
 
             return auth;
         }
