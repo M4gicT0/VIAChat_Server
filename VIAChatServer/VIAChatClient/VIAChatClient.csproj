@@ -52,7 +52,7 @@
     <Compile Include="ChatWindowClient.Designer.cs">
       <DependentUpon>ChatWindowClient.cs</DependentUpon>
     </Compile>
-    <Compile Include="Client.cs" />
+    <Compile Include="ClientController.cs" />
     <Compile Include="CreateAccountWindow.cs">
       <SubType>Form</SubType>
     </Compile>
