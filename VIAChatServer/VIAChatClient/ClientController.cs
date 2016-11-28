@@ -11,13 +11,14 @@ namespace VIAChatClient
 {
     class ClientController
     {
-        private Socket socket;
+        private Connection connection;
         private User user;
         private View view;
 
         public ClientController(View view)
         {
             this.view = view;
+            connection = Connection.Instance;
         }
 
         public bool Connect(String ip, int port)
@@ -33,14 +34,11 @@ namespace VIAChatClient
             {
                 view.Alert("Bad IP address !");
             }
-
-            IPEndPoint remoteEP = new IPEndPoint(ipAddr, port);
-            socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-
+            
             // Connect the socket to the remote endpoint. Catch any errors.
             try
             {
-                socket.Connect(remoteEP);
+                connection.Connect(ipAddr, port);
                 success = true;
             }
             catch (Exception e)
@@ -62,7 +60,7 @@ namespace VIAChatClient
             {
                 serializer.Serialize(writer, user);
                 byte[] utf8EncodedXml = memoryStream.ToArray();
-                socket.Send(utf8EncodedXml);
+                connection.Send(utf8EncodedXml);
             }
 
             int recv = 0;
@@ -73,7 +71,7 @@ namespace VIAChatClient
             {
                 try
                 {
-                    recv = socket.Receive(data);
+                    recv = connection.Receive(data);
                 }
                 catch (IOException)
                 {
@@ -107,7 +105,7 @@ namespace VIAChatClient
             {
                 serializer.Serialize(writer, user);
                 byte[] utf8EncodedXml = memoryStream.ToArray();
-                socket.Send(utf8EncodedXml);
+                connection.Send(utf8EncodedXml);
             }
 
             int recv = 0;
@@ -118,7 +116,7 @@ namespace VIAChatClient
             {
                 try
                 {
-                    recv = socket.Receive(data);
+                    recv = connection.Receive(data);
                 }
                 catch (IOException)
                 {
@@ -133,7 +131,10 @@ namespace VIAChatClient
                 response = (Response)serializer.Deserialize(ms);
 
                 if (response.success)
+                {
+                    connection.User = user;
                     success = true;
+                }
                 else
                     view.Alert(response.body);
             }
@@ -143,8 +144,7 @@ namespace VIAChatClient
 
         public void Close()
         {
-            socket.Shutdown(SocketShutdown.Both);
-            socket.Close();
+            connection.Close();
         }
     }
 }

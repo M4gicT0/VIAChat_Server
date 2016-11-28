@@ -40,10 +40,8 @@ namespace VIAChatClient
                 if (client.LoginUser(userNameTextBoxLog.Text, passwordTextBoxLog.Text))
                 {
                     MessageBox.Show("User successfuly logged in !");
-                    /*
-                        * TO DO :
-                        * Show chat window
-                        */
+                    this.Hide();
+                    (new ChatWindowClient()).Show();
                 }
                 else
                 {

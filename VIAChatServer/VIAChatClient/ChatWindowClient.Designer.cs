@@ -28,33 +28,35 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.ChatMessageRichTextBoxDisplay = new System.Windows.Forms.RichTextBox();
-            this.inputMessageToSendTextBox = new System.Windows.Forms.TextBox();
+            this.conversationBox = new System.Windows.Forms.RichTextBox();
+            this.messageInput = new System.Windows.Forms.TextBox();
             this.sendMessageButton = new System.Windows.Forms.Button();
             this.userListBox = new System.Windows.Forms.ListBox();
             this.headerConversationlabel = new System.Windows.Forms.Label();
             this.headeronlineUsersLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // ChatMessageRichTextBoxDisplay
+            // conversationBox
             // 
-            this.ChatMessageRichTextBoxDisplay.Location = new System.Drawing.Point(32, 53);
-            this.ChatMessageRichTextBoxDisplay.Name = "ChatMessageRichTextBoxDisplay";
-            this.ChatMessageRichTextBoxDisplay.ReadOnly = true;
-            this.ChatMessageRichTextBoxDisplay.Size = new System.Drawing.Size(513, 454);
-            this.ChatMessageRichTextBoxDisplay.TabIndex = 0;
-            this.ChatMessageRichTextBoxDisplay.Text = "";
+            this.conversationBox.Location = new System.Drawing.Point(32, 53);
+            this.conversationBox.Name = "conversationBox";
+            this.conversationBox.ReadOnly = true;
+            this.conversationBox.Size = new System.Drawing.Size(513, 454);
+            this.conversationBox.TabIndex = 0;
+            this.conversationBox.Text = "";
             // 
-            // inputMessageToSendTextBox
+            // messageInput
             // 
-            this.inputMessageToSendTextBox.Location = new System.Drawing.Point(32, 522);
-            this.inputMessageToSendTextBox.Multiline = true;
-            this.inputMessageToSendTextBox.Name = "inputMessageToSendTextBox";
-            this.inputMessageToSendTextBox.Size = new System.Drawing.Size(513, 77);
-            this.inputMessageToSendTextBox.TabIndex = 1;
+            this.messageInput.Location = new System.Drawing.Point(32, 522);
+            this.messageInput.Multiline = true;
+            this.messageInput.Name = "messageInput";
+            this.messageInput.Size = new System.Drawing.Size(513, 77);
+            this.messageInput.TabIndex = 1;
+            this.messageInput.TextChanged += new System.EventHandler(this.messageInput_TextChanged);
             // 
             // sendMessageButton
             // 
+            this.sendMessageButton.Enabled = false;
             this.sendMessageButton.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.sendMessageButton.Location = new System.Drawing.Point(574, 535);
             this.sendMessageButton.Name = "sendMessageButton";
@@ -62,6 +64,7 @@
             this.sendMessageButton.TabIndex = 3;
             this.sendMessageButton.Text = "Send";
             this.sendMessageButton.UseVisualStyleBackColor = true;
+            this.sendMessageButton.Click += new System.EventHandler(this.sendMessageButton_Click);
             // 
             // userListBox
             // 
@@ -103,8 +106,8 @@
             this.Controls.Add(this.headerConversationlabel);
             this.Controls.Add(this.userListBox);
             this.Controls.Add(this.sendMessageButton);
-            this.Controls.Add(this.inputMessageToSendTextBox);
-            this.Controls.Add(this.ChatMessageRichTextBoxDisplay);
+            this.Controls.Add(this.messageInput);
+            this.Controls.Add(this.conversationBox);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "ChatWindowClient";
@@ -117,8 +120,8 @@
 
         #endregion
 
-        private System.Windows.Forms.RichTextBox ChatMessageRichTextBoxDisplay;
-        private System.Windows.Forms.TextBox inputMessageToSendTextBox;
+        private System.Windows.Forms.RichTextBox conversationBox;
+        private System.Windows.Forms.TextBox messageInput;
         private System.Windows.Forms.Button sendMessageButton;
         private System.Windows.Forms.ListBox userListBox;
         private System.Windows.Forms.Label headerConversationlabel;
