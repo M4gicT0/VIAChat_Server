@@ -156,8 +156,8 @@ namespace VIAChatServer
                 monitor.UserSays(authedUser, msg);
             }
 
-            monitor.Notify(user.username + " is disconnected.");
-            monitor.RemoveUser(user);
+            monitor.Notify(authedUser.username + " is disconnected.");
+            monitor.RemoveUser(authedUser);
         }
 
 
@@ -322,8 +322,12 @@ namespace VIAChatServer
                 string body = message.body;
                 string username = message.User.username;
                 byte[] historyEntry = Encoding.ASCII.GetBytes(username + ": " + body + "\n");
+                byte[] receiveBuffer = new Byte[2];
 
                 stream.Write(historyEntry, 0, historyEntry.Length); //Writes the message body in the stream
+
+                //RECEIVE OKAY BEFORE CONTINUING, otherwise the server sends all the messages at once, before the client has time to parse them one by one
+                stream.Read(receiveBuffer, 0, receiveBuffer.Length);
             }
         }
 

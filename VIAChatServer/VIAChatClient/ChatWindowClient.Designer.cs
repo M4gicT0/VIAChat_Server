@@ -31,7 +31,7 @@
             this.conversationBox = new System.Windows.Forms.RichTextBox();
             this.messageInput = new System.Windows.Forms.TextBox();
             this.sendMessageButton = new System.Windows.Forms.Button();
-            this.userListBox = new System.Windows.Forms.ListBox();
+            this.usersList = new System.Windows.Forms.ListBox();
             this.headerConversationlabel = new System.Windows.Forms.Label();
             this.headeronlineUsersLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
@@ -47,10 +47,10 @@
             // 
             // messageInput
             // 
-            this.messageInput.Location = new System.Drawing.Point(32, 522);
+            this.messageInput.Location = new System.Drawing.Point(32, 513);
             this.messageInput.Multiline = true;
             this.messageInput.Name = "messageInput";
-            this.messageInput.Size = new System.Drawing.Size(513, 77);
+            this.messageInput.Size = new System.Drawing.Size(513, 53);
             this.messageInput.TabIndex = 1;
             this.messageInput.TextChanged += new System.EventHandler(this.messageInput_TextChanged);
             // 
@@ -58,21 +58,21 @@
             // 
             this.sendMessageButton.Enabled = false;
             this.sendMessageButton.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.sendMessageButton.Location = new System.Drawing.Point(574, 535);
+            this.sendMessageButton.Location = new System.Drawing.Point(574, 518);
             this.sendMessageButton.Name = "sendMessageButton";
-            this.sendMessageButton.Size = new System.Drawing.Size(173, 64);
+            this.sendMessageButton.Size = new System.Drawing.Size(173, 48);
             this.sendMessageButton.TabIndex = 3;
             this.sendMessageButton.Text = "Send";
             this.sendMessageButton.UseVisualStyleBackColor = true;
             this.sendMessageButton.Click += new System.EventHandler(this.sendMessageButton_Click);
             // 
-            // userListBox
+            // usersList
             // 
-            this.userListBox.FormattingEnabled = true;
-            this.userListBox.Location = new System.Drawing.Point(574, 60);
-            this.userListBox.Name = "userListBox";
-            this.userListBox.Size = new System.Drawing.Size(173, 459);
-            this.userListBox.TabIndex = 4;
+            this.usersList.FormattingEnabled = true;
+            this.usersList.Location = new System.Drawing.Point(574, 53);
+            this.usersList.Name = "usersList";
+            this.usersList.Size = new System.Drawing.Size(173, 459);
+            this.usersList.TabIndex = 4;
             // 
             // headerConversationlabel
             // 
@@ -90,11 +90,11 @@
             this.headeronlineUsersLabel.AutoSize = true;
             this.headeronlineUsersLabel.Font = new System.Drawing.Font("Segoe UI", 12.25F);
             this.headeronlineUsersLabel.ForeColor = System.Drawing.Color.White;
-            this.headeronlineUsersLabel.Location = new System.Drawing.Point(570, 34);
+            this.headeronlineUsersLabel.Location = new System.Drawing.Point(570, 27);
             this.headeronlineUsersLabel.Name = "headeronlineUsersLabel";
-            this.headeronlineUsersLabel.Size = new System.Drawing.Size(99, 23);
+            this.headeronlineUsersLabel.Size = new System.Drawing.Size(106, 23);
             this.headeronlineUsersLabel.TabIndex = 5;
-            this.headeronlineUsersLabel.Text = "Online User";
+            this.headeronlineUsersLabel.Text = "Online Users";
             // 
             // ChatWindowClient
             // 
@@ -104,7 +104,7 @@
             this.ClientSize = new System.Drawing.Size(793, 636);
             this.Controls.Add(this.headeronlineUsersLabel);
             this.Controls.Add(this.headerConversationlabel);
-            this.Controls.Add(this.userListBox);
+            this.Controls.Add(this.usersList);
             this.Controls.Add(this.sendMessageButton);
             this.Controls.Add(this.messageInput);
             this.Controls.Add(this.conversationBox);
@@ -123,7 +123,7 @@
         private System.Windows.Forms.RichTextBox conversationBox;
         private System.Windows.Forms.TextBox messageInput;
         private System.Windows.Forms.Button sendMessageButton;
-        private System.Windows.Forms.ListBox userListBox;
+        private System.Windows.Forms.ListBox usersList;
         private System.Windows.Forms.Label headerConversationlabel;
         private System.Windows.Forms.Label headeronlineUsersLabel;
     }

@@ -13,10 +13,12 @@ namespace VIAChatClient
 
             client = new ClientController(this);
         }
-
+        
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
+            client.Close();
             base.OnFormClosing(e);
+            Application.Exit();
         }
 
         private void logMeInButtonLog_Click(object sender, EventArgs e)
@@ -38,12 +40,8 @@ namespace VIAChatClient
                 if (client.LoginUser(userNameTextBoxLog.Text, passwordTextBoxLog.Text))
                 {
                     MessageBox.Show("User successfuly logged in !");
-                    this.Close();
+                    this.Hide();
                     (new ChatWindowClient()).Show();
-                }
-                else
-                {
-                    MessageBox.Show("Login error !");
                 }
             }
             else
@@ -54,9 +52,8 @@ namespace VIAChatClient
 
         private void backbButtonLog_Click(object sender, EventArgs e)
         {
-            this.Close();
-            var mainWindow = new FormMainWindow();
-            mainWindow.Show();
+            this.Hide();
+            (new FormMainWindow()).Show();
         }
 
         public void Alert(String message)

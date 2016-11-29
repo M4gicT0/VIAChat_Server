@@ -19,18 +19,16 @@ namespace VIAChatClient
 
         private void loginButton_Click(object sender, EventArgs e)
         {
-            this.Hide();
             //Take to Login window
-            var loginWindow = new LoginFormUserWindow();
-            loginWindow.Show();
+            (new LoginFormUserWindow()).Show();
+            this.Hide();
 
         }
 
         private void createButton_Click(object sender, EventArgs e)
         {
             this.Hide();
-            var createWindow= new CreateAccountWindow();
-            createWindow.Show();
+            (new CreateAccountWindow()).Show();
         }
     }
 }

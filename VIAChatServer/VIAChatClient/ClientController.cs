@@ -191,6 +191,7 @@ namespace VIAChatClient
         {
             string[] history = null;
             byte[] nbMsgs = new Byte[4];
+            byte[] okay = Encoding.UTF8.GetBytes("OK");
             connection.Receive(nbMsgs);
             int nbMessages = BitConverter.ToInt32(nbMsgs, 0);
             history = new String[nbMessages];
@@ -206,12 +207,15 @@ namespace VIAChatClient
                     {
                         recv = connection.Receive(data);
                         history[i] = Encoding.UTF8.GetString(data);
+                        connection.Send(okay); //Send okay, and then be ready to receive the next entry
                     }
                     catch (IOException)
                     {
                         Console.WriteLine("TCP error");
                     }
                 }
+
+
             }
 
             return history;

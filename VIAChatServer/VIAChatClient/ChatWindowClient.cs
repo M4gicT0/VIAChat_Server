@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 
 namespace VIAChatClient
 {
@@ -20,6 +21,7 @@ namespace VIAChatClient
             //Stop the socket before closing the application
             client.Close();
             base.OnFormClosing(e);
+            Application.Exit();
         }
 
         public void Alert(string message)

@@ -19,8 +19,9 @@ namespace VIAChatClient
             //Stop the socket before closing the application
             client.Close();
             base.OnFormClosing(e);
+            Application.Exit();
         }
-
+        
         private void registerMeButton_Click(object sender, EventArgs e)
         {
 
@@ -41,8 +42,7 @@ namespace VIAChatClient
                 {
                     MessageBox.Show("User successfuly registered !");
                     this.Hide();
-                    LoginFormUserWindow loginFormUserWindow = new LoginFormUserWindow();
-                    loginFormUserWindow.Show();
+                    (new LoginFormUserWindow()).Show();
                 } else {
                     MessageBox.Show("Error registering user !");
                 }

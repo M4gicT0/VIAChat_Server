@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Microsoft.Win32.SafeHandles;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using VIAChatClient.Models;
@@ -11,7 +13,7 @@ namespace VIAChatClient
 {
     class Connection
     {
-
+       
         private static Connection instance;
         private Socket socket;
         public User User { get; set; }
@@ -50,8 +52,9 @@ namespace VIAChatClient
 
         public void Close()
         {
-            if(socket != null)
+            if(socket != null && socket.Connected)
             {
+                socket.Disconnect(false);
                 socket.Shutdown(SocketShutdown.Both);
                 socket.Close();
             }
