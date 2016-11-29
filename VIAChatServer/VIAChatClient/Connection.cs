@@ -59,5 +59,10 @@ namespace VIAChatClient
                 socket.Close();
             }
         }
+
+        public bool IsRunning()
+        {
+            return socket.Connected;
+        }
     }
 }

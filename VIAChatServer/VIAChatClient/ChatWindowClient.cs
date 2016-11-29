@@ -30,6 +30,13 @@ namespace VIAChatClient
             MessageBox.Show(message);
         }
 
+        public void AddMessage(string message)
+        {
+            this.Invoke((MethodInvoker)delegate {
+                conversationBox.AppendText(message);
+            });
+        }
+
         private void PopulateOnlineUsers()
         {
             string[] onlineUsers = client.ReceiveOnlineUsersList();

@@ -154,6 +154,7 @@ namespace VIAChatServer
                 }
 
                 SaveMessage(msg, authedUser, stream);
+                BroadCast(msg, authedUser, stream);
                 monitor.UserSays(authedUser, msg);
             }
 
@@ -217,6 +218,23 @@ namespace VIAChatServer
                     SendResponse(false, e.ToString(), stream);
                     Console.WriteLine(e);
                 }
+            }
+
+            return success;
+        }
+
+        /*
+         * Sends a message from a user to every connected user
+         */
+        private bool BroadCast(Message msg, User author, NetworkStream stream)
+        {
+            bool success = false;
+            byte[] data;
+
+            foreach(User user in onlineUsers)
+            {
+                data = Encoding.UTF8.GetBytes(author.username + ": " + msg.body + "\n");
+
             }
 
             return success;

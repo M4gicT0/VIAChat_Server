@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Xml.Serialization;
 using VIAChatClient.Models;
 
@@ -13,11 +14,13 @@ namespace VIAChatClient
         private Connection connection;
         private User user;
         private View view;
+        private bool sending; //Semaphor for receiving/sending messages
 
         public ClientController(View view)
         {
             this.view = view;
             connection = Connection.Instance;
+            sending = false;
         }
 
         public bool Connect(String ip, int port)
@@ -133,6 +136,7 @@ namespace VIAChatClient
                 {
                     connection.User = user;
                     success = true;
+                    Thread incomingMessages = new Thread(() => ListenForMessagesThread());//Start a thread for incoming messages
                 }
                 else
                     view.Alert(response.body);
@@ -141,8 +145,41 @@ namespace VIAChatClient
             return success;
         }
 
+        /*
+         * Thread waiting for incoming messages
+         */
+        private void ListenForMessagesThread()
+        {
+            byte[] okay = Encoding.UTF8.GetBytes("OK");
+            int recv = 0;
+            byte[] data = new Byte[1024];
+
+            while (connection.IsRunning())
+            {
+                recv = 0;
+                data = new Byte[1024];
+
+                while (recv == 0 && !sending)
+                {
+                    try
+                    {
+                        recv = connection.Receive(data);
+                        string message = Encoding.UTF8.GetString(data);
+                        view.AddMessage(message);
+                        connection.Send(okay); //Send okay, and then be ready to receive the next entry
+                    }
+                    catch (IOException)
+                    {
+                        Console.WriteLine("TCP error");
+                    }
+                }
+            }
+        }
+
+
         public bool SendMessage(String body)
         {
+            sending = true;
             bool success = false;
             Message message = new Message(body);
             XmlSerializer serializer = new XmlSerializer(typeof(Message));
@@ -184,6 +221,8 @@ namespace VIAChatClient
                 else
                     view.Alert(response.body);
             }
+
+            sending = false;
 
             return success;
         }
