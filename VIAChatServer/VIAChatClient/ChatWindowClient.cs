@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using VIAChatClient.Models;
 
 namespace VIAChatClient
 {
@@ -31,6 +32,12 @@ namespace VIAChatClient
 
         private void PopulateOnlineUsers()
         {
+            string[] onlineUsers = client.ReceiveOnlineUsersList();
+
+            for(int i = 0; i < onlineUsers.Length; i++)
+            {
+                usersList.AppendText(onlineUsers[i]);
+            }
         }
 
         private void PopulateMessageHistory()

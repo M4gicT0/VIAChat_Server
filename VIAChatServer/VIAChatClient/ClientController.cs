@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
@@ -187,6 +188,37 @@ namespace VIAChatClient
             return success;
         }
 
+        public string[] ReceiveOnlineUsersList()
+        {
+            byte[] nbUsrs = new Byte[4];
+            byte[] okay = Encoding.UTF8.GetBytes("OK");
+            connection.Receive(nbUsrs);
+            int nbUsers = BitConverter.ToInt32(nbUsrs, 0);
+            string[] onlineUsers = new String[nbUsers];
+
+            for (int i = 0; i < nbUsers; i++)
+            {
+                int recv = 0;
+                byte[] data = new byte[1024];
+
+                while (recv == 0)
+                {
+                    try
+                    {
+                        recv = connection.Receive(data);
+                        onlineUsers[i] = Encoding.UTF8.GetString(data);
+                        connection.Send(okay); //Send okay, and then be ready to receive the next entry
+                    }
+                    catch (IOException)
+                    {
+                        Console.WriteLine("TCP error");
+                    }
+                }                
+            }
+
+            return onlineUsers;
+        }
+
         public string[] ReceiveHistory()
         {
             string[] history = null;
@@ -214,8 +246,6 @@ namespace VIAChatClient
                         Console.WriteLine("TCP error");
                     }
                 }
-
-
             }
 
             return history;

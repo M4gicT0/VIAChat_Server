@@ -55,7 +55,7 @@ namespace VIAChatServer
              */
             serviceUrl = new Uri("http://localhost:8080/users");
             host = new ServiceHost(typeof(OnlineUsersService), serviceUrl);
-            //host.Open();
+            //host.Open(); //Run as administrator in order to open a connection listener on this address
             Console.WriteLine("The service is ready at http://localhost:8080/users");
             Console.WriteLine("You can get the number of online users at: http://localhost:8080/users/online");
         }
@@ -120,7 +120,8 @@ namespace VIAChatServer
                     onlineUsers.Add(authedUser);
                     monitor.AddUser(authedUser);
                     monitor.Notify(authedUser.username + " is connected.");
-                    SendMessageHistory(stream); //Here is what you missed
+                    SendOnlineUsers(stream, authedUser); //Here are the people you can talk to
+                    SendMessageHistory(stream, authedUser); //Here is what you missed
                 } else
                     return;
 
@@ -310,7 +311,7 @@ namespace VIAChatServer
             }
         }
 
-        private void SendMessageHistory(NetworkStream stream)
+        private void SendMessageHistory(NetworkStream stream, User authedUser)
         {
             ViaChatEntities context = new ViaChatEntities();
             byte[] nbMessages = BitConverter.GetBytes(context.Messages.Count<Message>());
@@ -320,12 +321,31 @@ namespace VIAChatServer
             foreach(Message message in context.Messages)
             {
                 string body = message.body;
-                string username = message.User.username;
+                string username = message.User.id != authedUser.id ? message.User.username : "You";
                 byte[] historyEntry = Encoding.ASCII.GetBytes(username + ": " + body + "\n");
                 byte[] receiveBuffer = new Byte[2];
 
                 stream.Write(historyEntry, 0, historyEntry.Length); //Writes the message body in the stream
 
+                //RECEIVE OKAY BEFORE CONTINUING, otherwise the server sends all the messages at once, before the client has time to parse them one by one
+                stream.Read(receiveBuffer, 0, receiveBuffer.Length);
+            }
+        }
+
+        private void SendOnlineUsers(NetworkStream stream, User authedUser)
+        {
+            byte[] nbUsers = BitConverter.GetBytes(onlineUsers.Count);
+
+            stream.Write(nbUsers, 0, nbUsers.Length); //Send number of users to be read
+
+            foreach (User user in onlineUsers)
+            {
+                string username = user != authedUser ? user.username : "You";
+                byte[] onlineUser = Encoding.ASCII.GetBytes(username + "\n");
+
+                stream.Write(onlineUser, 0, onlineUser.Length);
+
+                byte[] receiveBuffer = new Byte[2];
                 //RECEIVE OKAY BEFORE CONTINUING, otherwise the server sends all the messages at once, before the client has time to parse them one by one
                 stream.Read(receiveBuffer, 0, receiveBuffer.Length);
             }

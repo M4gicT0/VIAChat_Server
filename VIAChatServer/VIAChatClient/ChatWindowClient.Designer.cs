@@ -31,9 +31,9 @@
             this.conversationBox = new System.Windows.Forms.RichTextBox();
             this.messageInput = new System.Windows.Forms.TextBox();
             this.sendMessageButton = new System.Windows.Forms.Button();
-            this.usersList = new System.Windows.Forms.ListBox();
             this.headerConversationlabel = new System.Windows.Forms.Label();
             this.headeronlineUsersLabel = new System.Windows.Forms.Label();
+            this.usersList = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // conversationBox
@@ -66,14 +66,6 @@
             this.sendMessageButton.UseVisualStyleBackColor = true;
             this.sendMessageButton.Click += new System.EventHandler(this.sendMessageButton_Click);
             // 
-            // usersList
-            // 
-            this.usersList.FormattingEnabled = true;
-            this.usersList.Location = new System.Drawing.Point(574, 53);
-            this.usersList.Name = "usersList";
-            this.usersList.Size = new System.Drawing.Size(173, 459);
-            this.usersList.TabIndex = 4;
-            // 
             // headerConversationlabel
             // 
             this.headerConversationlabel.AutoSize = true;
@@ -96,15 +88,24 @@
             this.headeronlineUsersLabel.TabIndex = 5;
             this.headeronlineUsersLabel.Text = "Online Users";
             // 
+            // usersList
+            // 
+            this.usersList.Location = new System.Drawing.Point(574, 53);
+            this.usersList.Multiline = true;
+            this.usersList.Name = "usersList";
+            this.usersList.ReadOnly = true;
+            this.usersList.Size = new System.Drawing.Size(173, 454);
+            this.usersList.TabIndex = 6;
+            // 
             // ChatWindowClient
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(55)))), ((int)(((byte)(55)))));
             this.ClientSize = new System.Drawing.Size(793, 636);
+            this.Controls.Add(this.usersList);
             this.Controls.Add(this.headeronlineUsersLabel);
             this.Controls.Add(this.headerConversationlabel);
-            this.Controls.Add(this.usersList);
             this.Controls.Add(this.sendMessageButton);
             this.Controls.Add(this.messageInput);
             this.Controls.Add(this.conversationBox);
@@ -123,8 +124,8 @@
         private System.Windows.Forms.RichTextBox conversationBox;
         private System.Windows.Forms.TextBox messageInput;
         private System.Windows.Forms.Button sendMessageButton;
-        private System.Windows.Forms.ListBox usersList;
         private System.Windows.Forms.Label headerConversationlabel;
         private System.Windows.Forms.Label headeronlineUsersLabel;
+        private System.Windows.Forms.TextBox usersList;
     }
 }
