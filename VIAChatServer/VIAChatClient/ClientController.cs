@@ -14,6 +14,7 @@ namespace VIAChatClient
         private Connection connection;
         private User user;
         private View view;
+        private Thread listen;
         private bool sending; //Semaphor for receiving/sending messages
 
         public ClientController(View view)
@@ -136,13 +137,21 @@ namespace VIAChatClient
                 {
                     connection.User = user;
                     success = true;
-                    Thread incomingMessages = new Thread(() => ListenForMessagesThread());//Start a thread for incoming messages
                 }
                 else
                     view.Alert(response.body);
             }
 
             return success;
+        }
+
+
+        public void StartListening()
+        {
+            if(listen == null)
+                listen = new Thread(() => ListenForMessagesThread());
+
+            listen.Start();//Start a thread for incoming messages
         }
 
         /*
@@ -163,10 +172,10 @@ namespace VIAChatClient
                 {
                     try
                     {
+                        connection.ReadTimeout(100);
                         recv = connection.Receive(data);
                         string message = Encoding.UTF8.GetString(data);
                         view.AddMessage(message);
-                        connection.Send(okay); //Send okay, and then be ready to receive the next entry
                     }
                     catch (IOException)
                     {
@@ -179,7 +188,8 @@ namespace VIAChatClient
 
         public bool SendMessage(String body)
         {
-            sending = true;
+            listen.Suspend();
+            connection.ReadTimeout(0);
             bool success = false;
             Message message = new Message(body);
             XmlSerializer serializer = new XmlSerializer(typeof(Message));
@@ -194,6 +204,7 @@ namespace VIAChatClient
 
             int recv = 0;
             byte[] data = new byte[1024];
+            byte[] okay = Encoding.UTF8.GetBytes("OK");
             Response response = null;
 
             while (recv == 0)
@@ -222,7 +233,8 @@ namespace VIAChatClient
                     view.Alert(response.body);
             }
 
-            sending = false;
+            connection.Send(okay);
+            listen.Resume();
 
             return success;
         }

@@ -15,6 +15,7 @@ namespace VIAChatClient
             client = new ClientController(this);
             PopulateOnlineUsers();
             PopulateMessageHistory();
+            client.StartListening();
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)

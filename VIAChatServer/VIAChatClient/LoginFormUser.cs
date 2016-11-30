@@ -60,5 +60,10 @@ namespace VIAChatClient
         {
             MessageBox.Show(message);
         }
+
+        public void AddMessage(string message)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

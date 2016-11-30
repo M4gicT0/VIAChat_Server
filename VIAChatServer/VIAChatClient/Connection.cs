@@ -47,7 +47,18 @@ namespace VIAChatClient
 
         public int Receive(byte[] data)
         {
-            return socket.Receive(data);
+            int received = 0;
+
+            try
+            {
+                received = socket.Receive(data);
+            }
+            catch(SocketException e)
+            {
+                //Timeout, it's okay
+            }
+
+            return received;
         }
 
         public void Close()
@@ -63,6 +74,11 @@ namespace VIAChatClient
         public bool IsRunning()
         {
             return socket.Connected;
+        }
+
+        public void ReadTimeout(int timeout)
+        {
+            socket.ReceiveTimeout = timeout;
         }
     }
 }

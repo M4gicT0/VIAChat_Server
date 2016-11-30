@@ -55,7 +55,7 @@ namespace VIAChatServer
              */
             serviceUrl = new Uri("http://localhost:8080/users");
             host = new ServiceHost(typeof(OnlineUsersService), serviceUrl);
-            //host.Open(); //Run as administrator in order to open a connection listener on this address
+            host.Open(); //Run as administrator in order to open a connection listener on this address
             Console.WriteLine("The service is ready at http://localhost:8080/users");
             Console.WriteLine("You can get the number of online users at: http://localhost:8080/users/online");
         }
@@ -154,7 +154,7 @@ namespace VIAChatServer
                 }
 
                 SaveMessage(msg, authedUser, stream);
-                BroadCast(msg, authedUser, stream);
+                BroadCast(msg, user);
                 monitor.UserSays(authedUser, msg);
             }
 
@@ -203,6 +203,8 @@ namespace VIAChatServer
         private bool SaveMessage(Message msg, User user, NetworkStream stream)
         {
             bool success = true;
+            byte[] receiveBuffer = new Byte[2];
+
             using (ViaChatEntities db = new ViaChatEntities())
             {
                 msg.user_id = user.id;
@@ -220,21 +222,25 @@ namespace VIAChatServer
                 }
             }
 
+            stream.Read(receiveBuffer, 0, receiveBuffer.Length); //Wait for user to receive message confirmation
+
             return success;
         }
 
         /*
          * Sends a message from a user to every connected user
          */
-        private bool BroadCast(Message msg, User author, NetworkStream stream)
+        private bool BroadCast(Message msg, User author)
         {
             bool success = false;
-            byte[] data;
+            byte[] data = Encoding.UTF8.GetBytes(author.username + ": " + msg.body + "\n");
 
-            foreach(User user in onlineUsers)
+            foreach (TcpClient client in clients)
             {
-                data = Encoding.UTF8.GetBytes(author.username + ": " + msg.body + "\n");
-
+                if (client.Connected)
+                    client.GetStream().Write(data, 0, data.Length);
+                else
+                    clients.Remove(client);
             }
 
             return success;
